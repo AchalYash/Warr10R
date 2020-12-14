@@ -1,11 +1,11 @@
 import 'package:firebase_auth/firebase_auth.dart';
 
 class FirebaseCustoms {
-  static FirebaseAuth _auth = FirebaseAuth.instance;
+  static FirebaseAuth auth = FirebaseAuth.instance;
 
   static User initAuth() {
     User toReturnUser;
-    _auth.authStateChanges().listen((User user) {
+    auth.authStateChanges().listen((User user) {
       if (user != null) {
         print("${user.email} logged in.");
         toReturnUser = user;
@@ -15,7 +15,7 @@ class FirebaseCustoms {
     return toReturnUser;
   }
 
-  static Future<int> requestRegistration(String email, String password) async {
+  static Future<int> requestRegistration(String email, String password, int category) async {
     ///   [toReturnRegistration]
     ///
     ///   0    =>   Registration Unprocessed (Local Error).
@@ -24,8 +24,14 @@ class FirebaseCustoms {
 
     try {
       // UserCredential registeredUserCredentials =
-      await _auth.createUserWithEmailAndPassword(
+      await auth.createUserWithEmailAndPassword(
           email: email, password: password);
+
+      /// photoURL
+      ///
+      /// category  =>  User Category
+      /// 0/1       =>  Authentication Status
+      await auth.currentUser.updateProfile(photoURL: "${category}0");
 
       /// [toReturnRegistration] == 1  =>    Registration Successful.
       toReturnRegistration = 1;
@@ -42,6 +48,8 @@ class FirebaseCustoms {
       }
     } catch (e) {
       print(e);
+      /// [toReturnRegistration] == -3  =>    Unknown Error.
+      toReturnRegistration = -3;
     }
 
     return toReturnRegistration;
@@ -56,7 +64,7 @@ class FirebaseCustoms {
 
     try {
       // UserCredential loggedInUserCredentials =
-      await _auth
+      await auth
           .signInWithEmailAndPassword(email: email, password: password);
 
       /// [toReturnLogin] == 1  =>    Registration Successful.
@@ -83,7 +91,7 @@ class FirebaseCustoms {
     bool toReturnLogOut = false;
 
     try {
-      _auth.signOut();
+      auth.signOut();
       print('Logged Out');
       toReturnLogOut = true;
     } catch (e) {
@@ -97,11 +105,11 @@ class FirebaseCustoms {
     int toReturnReset = 0;
 
     try {
-      await _auth.fetchSignInMethodsForEmail(email).then((methods) async {
+      await auth.fetchSignInMethodsForEmail(email).then((methods) async {
         if(methods.isEmpty)
           toReturnReset = -1;
         else {
-          await _auth.sendPasswordResetEmail(email: email).then((value) {print("Sent");});
+          await auth.sendPasswordResetEmail(email: email).then((value) {print("Sent");});
           toReturnReset = 1;
         }
       });

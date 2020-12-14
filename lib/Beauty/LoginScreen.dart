@@ -1,6 +1,8 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:vaccine_distribution/Beauty/PatientAuthentication.dart';
+import 'package:vaccine_distribution/Beauty/PatientDashboard.dart';
 import 'package:vaccine_distribution/Brains/Firebase.dart';
 
 //enum userCategories { Admin, Producer, Distributor, Warrior, Patient }
@@ -251,21 +253,32 @@ class _LoginScreenState extends State<LoginScreen>
                                     errorKey = errorCode;
                                   });
                                   if (errorKey == 0) {
-                                    await FirebaseCustoms.logIn(
-                                        mail.value.text, password.value.text).then((loginStatus) {
-                                      switch(loginStatus) {
-                                        case 0: setState(() {
-                                          errorKey = 1;
-                                        }); break;
-                                        case -1: setState(() {
-                                          errorKey = 3;
-                                        }); break;
-                                        case -2: setState(() {
-                                          errorKey = 6;
-                                        }); break;
-                                        default: setState((){
-                                          errorKey = 0;
-                                        });
+                                    await FirebaseCustoms.logIn(mail.value.text,
+                                            password.value.text)
+                                        .then((loginStatus) {
+                                      switch (loginStatus) {
+                                        case 0:
+                                          setState(() {
+                                            errorKey = 1;
+                                          });
+                                          break;
+                                        case 1:
+                                          dashboard();
+                                          break;
+                                        case -1:
+                                          setState(() {
+                                            errorKey = 3;
+                                          });
+                                          break;
+                                        case -2:
+                                          setState(() {
+                                            errorKey = 6;
+                                          });
+                                          break;
+                                        default:
+                                          setState(() {
+                                            errorKey = 0;
+                                          });
                                       }
                                     });
                                   }
@@ -298,7 +311,9 @@ class _LoginScreenState extends State<LoginScreen>
                           errorMap[errorKey],
                           textAlign: TextAlign.center,
                           style: TextStyle(
-                            color: errorKey == 8 ? Colors.green : Colors.deepOrangeAccent,
+                            color: errorKey == 8
+                                ? Colors.green
+                                : Colors.deepOrangeAccent,
                           ),
                         ),
                       ), //Error
@@ -313,9 +328,11 @@ class _LoginScreenState extends State<LoginScreen>
                             setState(() {
                               errorKey = errorCode;
                             });
-                            if (errorKey == 0)  {
-                              int resetPasswordStatus = await FirebaseCustoms.resetPassword(mail.value.text);
-                              if(resetPasswordStatus == 1)  {
+                            if (errorKey == 0) {
+                              int resetPasswordStatus =
+                                  await FirebaseCustoms.resetPassword(
+                                      mail.value.text);
+                              if (resetPasswordStatus == 1) {
                                 setState(() {
                                   errorKey = 8;
                                 });
@@ -324,10 +341,11 @@ class _LoginScreenState extends State<LoginScreen>
                                     errorKey = 0;
                                   });
                                 });
-                              }
-                              else {
+                              } else {
                                 setState(() {
-                                  resetPasswordStatus == -1 ? errorKey = 9 : errorKey = 10;
+                                  resetPasswordStatus == -1
+                                      ? errorKey = 9
+                                      : errorKey = 10;
                                 });
                               }
                             }
@@ -566,21 +584,32 @@ class _LoginScreenState extends State<LoginScreen>
                                     errorKey = errorCode;
                                   });
                                   if (errorKey == 0)
-                                    await FirebaseCustoms.logIn(
-                                        mail.value.text, password.value.text).then((loginStatus) {
-                                      switch(loginStatus) {
-                                        case 0: setState(() {
-                                          errorKey = 1;
-                                        }); break;
-                                        case -1: setState(() {
-                                          errorKey = 3;
-                                        }); break;
-                                        case -2: setState(() {
-                                          errorKey = 6;
-                                        }); break;
-                                        default: setState((){
-                                          errorKey = 0;
-                                        });
+                                    await FirebaseCustoms.logIn(mail.value.text,
+                                            password.value.text)
+                                        .then((loginStatus) {
+                                      switch (loginStatus) {
+                                        case 0:
+                                          setState(() {
+                                            errorKey = 1;
+                                          });
+                                          break;
+                                        case 1:
+                                          dashboard();
+                                          break;
+                                        case -1:
+                                          setState(() {
+                                            errorKey = 3;
+                                          });
+                                          break;
+                                        case -2:
+                                          setState(() {
+                                            errorKey = 6;
+                                          });
+                                          break;
+                                        default:
+                                          setState(() {
+                                            errorKey = 0;
+                                          });
                                       }
                                     });
                                 },
@@ -615,20 +644,35 @@ class _LoginScreenState extends State<LoginScreen>
                                   });
                                   if (errorKey == 0)
                                     FirebaseCustoms.requestRegistration(
-                                        mail.value.text, password.value.text).then((loginStatus) {
-                                      switch(loginStatus) {
-                                        case 0: setState(() {
-                                          errorKey = 1;
-                                        }); break;
-                                        case -1: setState(() {
-                                          errorKey = 4;
-                                        }); break;
-                                        case -2: setState(() {
-                                          errorKey = 2;
-                                        }); break;
-                                        default: setState((){
-                                          errorKey = 0;
-                                        });
+                                            mail.value.text,
+                                            password.value.text,
+                                            userCategoryIndex)
+                                        .then((loginStatus) {
+                                      switch (loginStatus) {
+                                        case 0:
+                                          setState(() {
+                                            errorKey = 1;
+                                          });
+                                          break;
+                                        case -1:
+                                          setState(() {
+                                            errorKey = 4;
+                                          });
+                                          break;
+                                        case -2:
+                                          setState(() {
+                                            errorKey = 2;
+                                          });
+                                          break;
+                                        case -3:
+                                          setState(() {
+                                            errorKey = 10;
+                                          });
+                                          break;
+                                        default:
+                                          setState(() {
+                                            errorKey = 0;
+                                          });
                                       }
                                     });
                                 },
@@ -660,7 +704,9 @@ class _LoginScreenState extends State<LoginScreen>
                           errorMap[errorKey],
                           textAlign: TextAlign.center,
                           style: TextStyle(
-                            color: errorKey == 8 ? Colors.green : Colors.deepOrangeAccent,
+                            color: errorKey == 8
+                                ? Colors.green
+                                : Colors.deepOrangeAccent,
                           ),
                         ),
                       ), //Error
@@ -696,6 +742,35 @@ class _LoginScreenState extends State<LoginScreen>
         ],
       ),
     );
+  }
+
+  void dashboard() async {
+    String userStatus = FirebaseCustoms.auth.currentUser.photoURL;
+
+    switch(userStatus[0]) {
+      case '0':
+        print('Link Admin Dashboard');
+        break;
+      case '1':
+        print('Link Producer Dashboard');
+        break;
+      case '2':
+        print('Link Distributor Dashboard');
+        break;
+      case '3':
+        print('Link Warrior Dashboard');
+        break;
+      case '4':
+        if(userStatus[1] == '0')  {
+          print('Patient Authentication');
+          Navigator.push(context, MaterialPageRoute(builder: (context) => PatientAuthentication()));
+        }
+        else {
+          print('Link Patient Dashboard');
+          Navigator.push(context, MaterialPageRoute(builder: (context) => PatientDashboard()));
+        }
+        break;
+    }
   }
 
   int validateInputs(int action,
