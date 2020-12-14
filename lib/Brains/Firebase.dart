@@ -92,4 +92,26 @@ class FirebaseCustoms {
 
     return toReturnLogOut;
   }
+
+  static Future<int> resetPassword(String email) async {
+    int toReturnReset = 0;
+
+    try {
+      await _auth.fetchSignInMethodsForEmail(email).then((methods) async {
+        if(methods.isEmpty)
+          toReturnReset = -1;
+        else {
+          await _auth.sendPasswordResetEmail(email: email).then((value) {print("Sent");});
+          toReturnReset = 1;
+        }
+      });
+    }
+    catch (error) {
+      print(error);
+      toReturnReset = -2;
+    }
+
+    return toReturnReset;
+  }
+
 }

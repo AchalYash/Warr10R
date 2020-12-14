@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:vaccine_distribution/Brains/Firebase.dart';
 
@@ -26,7 +28,10 @@ class _LoginScreenState extends State<LoginScreen>
     4: "Invalid Password Length\n8 To 32 Characters",
     5: "Invalid Characters In Password\nCharacters, Numbers, ! - \# \$ \@ Only",
     6: "Incorrect Password\nReset Password If Required",
-    7: "Select A Category For Registration"
+    7: "Select A Category For Registration",
+    8: "Reset Link Sent To Mail Successfully",
+    9: "Unregistered E-Mail",
+    10: "Unknown Error"
   };
 
   @override
@@ -293,7 +298,7 @@ class _LoginScreenState extends State<LoginScreen>
                           errorMap[errorKey],
                           textAlign: TextAlign.center,
                           style: TextStyle(
-                            color: Colors.deepOrangeAccent,
+                            color: errorKey == 8 ? Colors.green : Colors.deepOrangeAccent,
                           ),
                         ),
                       ), //Error
@@ -302,19 +307,35 @@ class _LoginScreenState extends State<LoginScreen>
                         width: wd * 0.8,
                         alignment: Alignment.bottomCenter,
                         child: FlatButton(
-                          onPressed: () {
+                          onPressed: () async {
                             int errorCode =
                                 validateInputs(3, mail: mail.value.text);
                             setState(() {
                               errorKey = errorCode;
                             });
-                            if (errorKey == 0) print("Link Sent");
-                            //ToDo: Send Password Reset Link.
+                            if (errorKey == 0)  {
+                              int resetPasswordStatus = await FirebaseCustoms.resetPassword(mail.value.text);
+                              if(resetPasswordStatus == 1)  {
+                                setState(() {
+                                  errorKey = 8;
+                                });
+                                Timer(Duration(seconds: 5), () async {
+                                  setState(() {
+                                    errorKey = 0;
+                                  });
+                                });
+                              }
+                              else {
+                                setState(() {
+                                  resetPasswordStatus == -1 ? errorKey = 9 : errorKey = 10;
+                                });
+                              }
+                            }
                           },
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(10)),
                           child: Text(
-                            "Forgot Password",
+                            "Reset Password",
                             textAlign: TextAlign.center,
                             style: TextStyle(
                               color: Colors.grey,
@@ -639,7 +660,7 @@ class _LoginScreenState extends State<LoginScreen>
                           errorMap[errorKey],
                           textAlign: TextAlign.center,
                           style: TextStyle(
-                            color: Colors.deepOrangeAccent,
+                            color: errorKey == 8 ? Colors.green : Colors.deepOrangeAccent,
                           ),
                         ),
                       ), //Error

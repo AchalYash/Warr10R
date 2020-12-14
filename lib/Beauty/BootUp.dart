@@ -44,7 +44,6 @@ class _BootUpState extends State<BootUp> with SingleTickerProviderStateMixin {
       print(error);
     }
   }
-
   @override
   void didChangeDependencies() {
     Size size = MediaQuery.of(context).size;
