@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:vaccine_distribution/Beauty/BootUp.dart';
+import 'package:vaccine_distribution/Beauty/PatientAuthentication.dart';
 
 void main() {
   runApp(MyApp());
@@ -31,7 +32,7 @@ class MyApp extends StatelessWidget {
           },
         ),
       ),
-      home: BootUp(),
+      home: PatientAuthentication(),
     );
   }
 }

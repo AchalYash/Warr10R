@@ -5,9 +5,31 @@ class PatientAuthentication extends StatefulWidget {
   _PatientAuthenticationState createState() => _PatientAuthenticationState();
 }
 
-class _PatientAuthenticationState extends State<PatientAuthentication> {
+class _PatientAuthenticationState extends State<PatientAuthentication>
+    with SingleTickerProviderStateMixin {
   double ht, wd, notificationBarHeight;
   int _popupMenuSelection;
+  AnimationController animCtrl;
+  Animation anim;
+  bool _otpInput;
+
+  @override
+  void initState() {
+    _otpInput = false;
+    animCtrl = AnimationController(
+      duration: Duration(seconds: 1),
+      vsync: this,
+    );
+    anim = Tween<double>(begin: 1, end: 0).animate(CurvedAnimation(
+      parent: animCtrl,
+      curve: Curves.easeOut,
+      reverseCurve: Curves.easeOut,
+    ))
+      ..addListener(() {
+        setState(() {});
+      });
+    super.initState();
+  }
 
   @override
   void didChangeDependencies() {
@@ -23,165 +45,339 @@ class _PatientAuthenticationState extends State<PatientAuthentication> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      body: Stack(
-        children: [
-          Positioned(
-            top: 0,
-            left: 0,
-            child: Container(
-              height: ht * 0.11,
-              width: wd,
-              padding: EdgeInsets.only(top: notificationBarHeight),
-              color: Colors.lightBlueAccent,
-              child: Row(
-                children: [
-                  Container(
-                    width: wd * 0.85,
-                    height: ht * 0.11 - notificationBarHeight,
-                    alignment: Alignment.centerLeft,
-                    padding: EdgeInsets.only(
-                      left: 20,
-                    ),
-                    child: Text(
-                      "Patient Authentication",
-                      style: TextStyle(
-                        fontSize: 21,
-                        fontFamily: "Agus",
+      body: GestureDetector(
+        onTap: () {
+          FocusScope.of(context).unfocus();
+        },
+        child: Stack(
+          children: [
+            Positioned(
+              top: 0,
+              left: 0,
+              child: Container(
+                height: ht * 0.11,
+                width: wd,
+                padding: EdgeInsets.only(top: notificationBarHeight),
+                color: Colors.lightBlueAccent,
+                child: Row(
+                  children: [
+                    Container(
+                      width: wd * 0.85,
+                      height: ht * 0.11 - notificationBarHeight,
+                      alignment: Alignment.centerLeft,
+                      padding: EdgeInsets.only(
+                        left: 20,
                       ),
-                    ),
-                  ), //Patient Authentication
-                  Container(
-                    width: wd * 0.15,
-                    height: ht * 0.11 - notificationBarHeight,
-                    alignment: Alignment.center,
-                    child: PopupMenuButton<int>(
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10)),
-                      icon: Icon(Icons.more_vert),
-                      offset: Offset(0, ht * 0.1),
-                      onSelected: (int value) {
-                        setState(() {
-                          print(value);
-                          _popupMenuSelection = value;
-                        });
-                      },
-                      itemBuilder: (BuildContext context) =>
-                          <PopupMenuEntry<int>>[
-                        const PopupMenuItem<int>(
-                          value: 1,
-                          child: Text('Logout'),
-                          textStyle: TextStyle(
-                            color: Colors.black,
-                            fontFamily: "Agus",
-                            fontSize: 16,
-                          ),
-                        ), //Logout
-/*                        const PopupMenuItem<int>(
-                          value: 2,
-                          child: Text('2'),
+                      child: Text(
+                        "Patient Authentication",
+                        style: TextStyle(
+                          fontSize: 21,
+                          fontFamily: "Agus",
                         ),
-                        const PopupMenuItem<int>(
-                          value: 3,
-                          child: Text('3'),
-                        ),*/
-                      ], //PopUpMenu
-                    ),
-                  ),
-/*                  GestureDetector(
-                    onTap: (){
-                      print('Logout');
-                    },
-                    child: Container(
+                      ),
+                    ), //Patient Authentication
+                    Container(
                       width: wd * 0.15,
                       height: ht * 0.11 - notificationBarHeight,
                       alignment: Alignment.center,
-                      child: Icon(Icons.more_vert),
-                    ),
-                  ),*/
-                ],
-              ), //AppBar
-            ),
-          ),
-          Positioned(
-            top: ht * 0.15,
-            height: ht * 0.85,
-            width: wd,
-            child: Container(
-              // color: Colors.red,
-              padding: EdgeInsets.only(top: ht * 0.1, left: 20, right: 20),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Container(
-                    height: ht * 0.15,
-                    child: TextField(
-                      // focusNode: mailNode,
-                      // controller: mail,
-                      // onTap: () {
-                      //   FocusScope.of(context).requestFocus(mailNode);
-                      // },
-                      // onSubmitted: (mail) {
-                      //   FocusScope.of(context).requestFocus(passwordNode);
-                      // },
-                      // onEditingComplete: () {
-                      //   FocusScope.of(context).requestFocus(passwordNode);
-                      // },
-                      onChanged: (mail) {},
-                      decoration: InputDecoration(
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(15),
-                          borderSide: BorderSide(
-                            width: 1,
-                            color: Colors.black,
+                      child: PopupMenuButton<int>(
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10)),
+                        icon: Icon(Icons.more_vert),
+                        offset: Offset(0, ht * 0.1),
+                        onSelected: (int value) {
+                          setState(() {
+                            print(value);
+                            _popupMenuSelection = value;
+                          });
+                        },
+                        itemBuilder: (BuildContext context) =>
+                            <PopupMenuEntry<int>>[
+                          const PopupMenuItem<int>(
+                            value: 1,
+                            child: Text('Logout'),
+                            textStyle: TextStyle(
+                              color: Colors.black,
+                              fontFamily: "Agus",
+                              fontSize: 16,
+                            ),
+                          ), //Logout
+/*                        const PopupMenuItem<int>(
+                            value: 2,
+                            child: Text('2'),
                           ),
-                        ),
-                        hintText: "Aadhar Number",
+                          const PopupMenuItem<int>(
+                            value: 3,
+                            child: Text('3'),
+                          ),*/
+                        ], //PopUpMenu
                       ),
-                      keyboardType: TextInputType.number,
                     ),
-                  ),
-                  Container(
-                    height: ht * 0.1,
-                    alignment: Alignment.center,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        Container(
-                          height: ht * 0.055,
-                          width: wd * 0.315,
-                          margin: EdgeInsets.only(right: 10),
-                          child: RaisedButton(
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            color: Colors.transparent,
-                            elevation: 0,
-                            onPressed: () {},
-                            child: Text("Resend OTP"),
-                          ),
+/*                  GestureDetector(
+                      onTap: (){
+                        print('Logout');
+                      },
+                      child: Container(
+                        width: wd * 0.15,
+                        height: ht * 0.11 - notificationBarHeight,
+                        alignment: Alignment.center,
+                        child: Icon(Icons.more_vert),
+                      ),
+                    ),*/
+                  ],
+                ), //AppBar
+              ),
+            ), //AppBar
+            Positioned(
+              top: ht * 0.2,
+              child: Container(
+                height: ht * 0.15,
+                width: wd,
+                child: Center(
+                  child: RichText(
+                    text: TextSpan(
+                      style: TextStyle(
+                        fontFamily: "Agus",
+                        fontSize: wd * 0.15,
+                        color: Colors.lightBlueAccent.withOpacity(0.75),
+                      ),
+                      children: <TextSpan>[
+                        TextSpan(text: "Warr"),
+                        TextSpan(
+                          text: "10",
+                          style: TextStyle(
+                              color: Colors.deepOrangeAccent.withOpacity(0.75)),
                         ),
-                        Container(
-                          height: ht * 0.055,
-                          width: wd * 0.275,
-                          color: Colors.transparent,
-                          child: RaisedButton(
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            color: Colors.lightBlueAccent,
-                            onPressed: () {},
-                            child: Text("Send OTP"),
-                          ),
-                        ),
+                        TextSpan(text: "R"),
                       ],
                     ),
                   ),
-                ],
+                ),
+              ),
+            ), //Warr10R
+            Positioned(
+              top: ht * 0.45,
+              height: ht * 0.55,
+              width: wd,
+              child: FadeTransition(
+                opacity: anim,
+                child: Container(
+                  height: ht * 0.5,
+                  padding: EdgeInsets.symmetric(horizontal: wd * 0.1),
+                  // color: Colors.red,
+                  child: Padding(
+                    padding: EdgeInsets.only(top: ht * 0.05),
+                    child: PatientAuthenticationInputs(
+                      optInput: _otpInput,
+                    ),
+                  ),
+                ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
+  }
+}
+
+class PatientAuthenticationInputs extends StatefulWidget {
+  final bool optInput;
+
+  const PatientAuthenticationInputs({Key key, this.optInput}) : super(key: key);
+
+  @override
+  _PatientAuthenticationInputsState createState() =>
+      _PatientAuthenticationInputsState();
+}
+
+class _PatientAuthenticationInputsState
+    extends State<PatientAuthenticationInputs> {
+  double ht, wd;
+  bool optInput;
+
+  @override
+  void initState() {
+    optInput = widget.optInput;
+    super.initState();
+  }
+
+  @override
+  void didChangeDependencies() {
+    ht = MediaQuery.of(context).size.height;
+    wd = MediaQuery.of(context).size.width;
+    super.didChangeDependencies();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    if (optInput)
+      return Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          Container(
+            height: ht * 0.125,
+            alignment: Alignment.center,
+            padding: EdgeInsets.symmetric(horizontal: wd * 0.2),
+            // color: Colors.red,
+            child: TextField(
+              // focusNode: mailNode,
+              // controller: mail,
+              // onTap: () {
+              //   FocusScope.of(context).requestFocus(mailNode);
+              // },
+              // onSubmitted: (mail) {
+              //   FocusScope.of(context).requestFocus(passwordNode);
+              // },
+              // onEditingComplete: () {
+              //   FocusScope.of(context).requestFocus(passwordNode);
+              // },
+              onChanged: (mail) {},
+              decoration: InputDecoration(
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(15),
+                  borderSide: BorderSide(
+                    width: 1,
+                    color: Colors.black,
+                  ),
+                ),
+                hintStyle: TextStyle(
+                  letterSpacing: 1,
+                  fontSize: 16,
+                ),
+                hintText: "OTP",
+              ),
+              style: TextStyle(
+                letterSpacing: 5,
+                fontSize: 18,
+              ),
+              textAlign: TextAlign.center,
+              keyboardType: TextInputType.number,
+            ),
+          ), //OTP Text Field
+          Container(
+            height: ht * 0.1,
+            alignment: Alignment.center,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                /*Container(
+                                height: ht * 0.055,
+                                width: wd * 0.315,
+                                margin: EdgeInsets.only(right: 10),
+                                child: RaisedButton(
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+                                  color: Colors.transparent,
+                                  elevation: 0,
+                                  onPressed: () {},
+                                  child: Text("Resend OTP"),
+                                ),
+                              ),*/
+                Container(
+                  height: ht * 0.055,
+                  width: wd * 0.275,
+                  color: Colors.transparent,
+                  child: RaisedButton(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    color: Colors.lightBlueAccent,
+                    onPressed: () {},
+                    child: Text("Submit"),
+                  ),
+                ),
+              ],
+            ),
+          ), //OTP Action Buttons
+        ],
+      );
+    else
+      return Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          Container(
+            height: ht * 0.125,
+            alignment: Alignment.center,
+            child: TextField(
+              // focusNode: mailNode,
+              // controller: mail,
+              // onTap: () {
+              //   FocusScope.of(context).requestFocus(mailNode);
+              // },
+              // onSubmitted: (mail) {
+              //   FocusScope.of(context).requestFocus(passwordNode);
+              // },
+              // onEditingComplete: () {
+              //   FocusScope.of(context).requestFocus(passwordNode);
+              // },
+              onChanged: (mail) {},
+              decoration: InputDecoration(
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(15),
+                  borderSide: BorderSide(
+                    width: 1,
+                    color: Colors.black,
+                  ),
+                ),
+                hintStyle: TextStyle(
+                  // fontSize: 18,
+                  letterSpacing: 1,
+                ),
+                hintText: "Aadhar Number",
+              ),
+              style: TextStyle(
+                fontSize: 18,
+                letterSpacing: 5.0,
+              ),
+              textAlign: TextAlign.center,
+              keyboardType: TextInputType.number,
+            ),
+          ), //Aadhar Text Field
+          Container(
+            height: ht * 0.1,
+            alignment: Alignment.center,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                Container(
+                  height: ht * 0.055,
+                  width: wd * 0.315,
+                  margin: EdgeInsets.only(right: 10),
+                  child: RaisedButton(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    color: Colors.transparent,
+                    elevation: 0,
+                    onPressed: () {},
+                    child: Text(
+                      "Resend OTP",
+                      style: TextStyle(
+                        fontSize: 13,
+                        fontWeight: FontWeight.normal,
+                      ),
+                    ),
+                  ),
+                ),
+                Container(
+                  height: ht * 0.055,
+                  width: wd * 0.275,
+                  color: Colors.transparent,
+                  child: RaisedButton(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    color: Colors.lightBlueAccent,
+                    onPressed: () {},
+                    child: Text("Send OTP"),
+                  ),
+                ),
+              ],
+            ),
+          ), //Aadhar Action Buttons
+        ],
+      );
   }
 }
