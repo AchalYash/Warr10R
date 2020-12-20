@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:vaccine_distribution/Beauty/PatientDashboard.dart';
 import 'package:vaccine_distribution/Brains/Firebase.dart';
 
 class PatientAuthentication extends StatefulWidget {
@@ -259,20 +260,26 @@ class _PatientAuthenticationState extends State<PatientAuthentication>
             child: Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
-                /*Container(
-                                height: ht * 0.055,
-                                width: wd * 0.315,
-                                margin: EdgeInsets.only(right: 10),
-                                child: RaisedButton(
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(10),
-                                  ),
-                                  color: Colors.transparent,
-                                  elevation: 0,
-                                  onPressed: () {},
-                                  child: Text("Resend OTP"),
-                                ),
-                              ),*/
+                Container(
+                  height: ht * 0.055,
+                  width: wd * 0.315,
+                  margin: EdgeInsets.only(right: 10),
+                  child: RaisedButton(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    color: Colors.transparent,
+                    elevation: 0,
+                    onPressed: () {},
+                    child: Text(
+                      "Resend OTP",
+                      style: TextStyle(
+                        fontSize: 13,
+                        fontWeight: FontWeight.normal,
+                      ),
+                    ),
+                  ),
+                ),
                 Container(
                   height: ht * 0.055,
                   width: wd * 0.275,
@@ -283,10 +290,12 @@ class _PatientAuthenticationState extends State<PatientAuthentication>
                     ),
                     color: Colors.lightBlueAccent,
                     onPressed: () {
-                      animCtrl.forward().then((value) {
+                      /*animCtrl.forward().then((value) {
                         _otpInput = false;
                         animCtrl.reverse();
-                      });
+                      });*/
+                      if(otpTextCtrl.value.text.isNotEmpty)
+                        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => PatientDashboard()));
                     },
                     child: Text("Submit"),
                   ),
@@ -347,26 +356,6 @@ class _PatientAuthenticationState extends State<PatientAuthentication>
               children: [
                 Container(
                   height: ht * 0.055,
-                  width: wd * 0.315,
-                  margin: EdgeInsets.only(right: 10),
-                  child: RaisedButton(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    color: Colors.transparent,
-                    elevation: 0,
-                    onPressed: () {},
-                    child: Text(
-                      "Resend OTP",
-                      style: TextStyle(
-                        fontSize: 13,
-                        fontWeight: FontWeight.normal,
-                      ),
-                    ),
-                  ),
-                ),
-                Container(
-                  height: ht * 0.055,
                   width: wd * 0.275,
                   color: Colors.transparent,
                   child: RaisedButton(
@@ -375,10 +364,11 @@ class _PatientAuthenticationState extends State<PatientAuthentication>
                     ),
                     color: Colors.lightBlueAccent,
                     onPressed: () {
-                      animCtrl.forward().then((value) {
-                        _otpInput = true;
-                        animCtrl.reverse();
-                      });
+                      if(aadharTextCtrl.value.text.isNotEmpty)  //ToDo: Add Aadhar Input Verification
+                        animCtrl.forward().then((value) {
+                          _otpInput = true;
+                          animCtrl.reverse();
+                        });
                     },
                     child: Text("Send OTP"),
                   ),
