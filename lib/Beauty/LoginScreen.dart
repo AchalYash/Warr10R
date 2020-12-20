@@ -763,10 +763,12 @@ class _LoginScreenState extends State<LoginScreen>
       case '4':
         if(userStatus[1] == '0')  {
           print('Patient Authentication');
+          password.text = "";
           Navigator.push(context, MaterialPageRoute(builder: (context) => PatientAuthentication()));
         }
         else {
           print('Link Patient Dashboard');
+          password.text = "";
           Navigator.push(context, MaterialPageRoute(builder: (context) => PatientDashboard()));
         }
         break;
