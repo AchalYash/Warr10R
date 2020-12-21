@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_riverpod/all.dart';
 import 'package:vaccine_distribution/Beauty/BootUp.dart';
 import 'package:vaccine_distribution/Beauty/PatientAuthentication.dart';
+import 'package:vaccine_distribution/Beauty/WarriorDashboard.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(ProviderScope(child: MyApp()));
 }
 
 class MyApp extends StatelessWidget {

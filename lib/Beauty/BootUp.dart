@@ -4,6 +4,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:vaccine_distribution/Brains/Firebase.dart';
+import 'WarriorDashboard.dart';
 
 import 'LoginScreen.dart';
 
@@ -15,7 +16,7 @@ class BootUp extends StatefulWidget {
 class _BootUpState extends State<BootUp> with SingleTickerProviderStateMixin {
   AnimationController colorAnimCtrl;
   Animation colorAnim;
-  double ht, wd, conHt;
+  double ht, wd, conHt, notificationBarHeight;
 
 
   void initFirebase() async {
@@ -32,7 +33,8 @@ class _BootUpState extends State<BootUp> with SingleTickerProviderStateMixin {
             Timer(Duration(milliseconds: 500), (){
               User currentUser = FirebaseCustoms.initAuth();
               if(currentUser == null)
-                Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => LoginScreen()));
+                Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => WarriorDashBoard(context, ht, wd, notificationBarHeight)));
+                // Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => LoginScreen()));
               else
                 print('DashBoard');
               //  ToDo: Navigate to DashBoard.
@@ -50,6 +52,7 @@ class _BootUpState extends State<BootUp> with SingleTickerProviderStateMixin {
     ht = size.height;
     conHt = ht * 0.85;
     wd = size.width;
+    notificationBarHeight = MediaQuery.of(context).padding.top;
     super.didChangeDependencies();
   }
 

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+// import 'package:flutter/services.dart';
 import 'package:vaccine_distribution/Brains/Firebase.dart';
+// import 'package:rive/rive.dart';
 
 class PatientDashboard extends StatefulWidget {
   @override
@@ -7,8 +9,11 @@ class PatientDashboard extends StatefulWidget {
 }
 
 class _PatientDashboardState extends State<PatientDashboard> {
+
   double ht, wd, notificationBarHeight;
-  int _popupMenuSelection;
+  int _popupMenuSelection;  //  Todo: Remove If Unused
+  // Artboard loadingArtBoard;
+  // RiveAnimationController loadingCtrl;
   List<Map<String, String>> patientRecords = [
     {
       "dt" : DateTime.now().toString(),
@@ -27,6 +32,21 @@ class _PatientDashboardState extends State<PatientDashboard> {
   ];
 
 
+/*  void initState() {
+    super.initState();
+
+    rootBundle.load('lib/Assets/loading.flr').then(
+          (data) async {
+        final file = RiveFile();
+
+        if (file.import(data)) {
+          final artBoard = file.mainArtboard;
+          artBoard.addController(loadingCtrl = SimpleAnimation('idle'));
+          setState(() => loadingArtBoard = artBoard);
+        }
+      },
+    );
+  }*/
 
   @override
   void didChangeDependencies() {
@@ -136,8 +156,12 @@ class _PatientDashboardState extends State<PatientDashboard> {
               top: ht * 0.11,
               height: ht * 0.89,
               width: wd,
-              child: Container(
+              //Todo: (patientRecords.isNotEmpty && patientRecords != null)
+              // child: (patientRecords.isNotEmpty && patientRecords != null)
+              child: (patientRecords.length > 3)
+                  ? Container(
                 height: ht * 0.89,
+                width: wd,
                 child: ListView(
                   padding: const EdgeInsets.symmetric(vertical: 32.0, horizontal: 16.0),
                   children: patientRecords.map((record) {
@@ -225,6 +249,18 @@ class _PatientDashboardState extends State<PatientDashboard> {
                       ),
                     );
                   }).toList(),
+                ),
+              ) : Container(
+                height: ht * 0.89,
+                child: Center(
+                  child: Text(
+                    "No Records Found",
+                    style: TextStyle(
+                      fontFamily: "Agus",
+                      fontSize: wd * 0.065,
+                      color: Colors.grey,
+                    ),
+                  ),
                 ),
               ),
             ),
