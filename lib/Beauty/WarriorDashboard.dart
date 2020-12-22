@@ -8,55 +8,12 @@ import 'package:vaccine_distribution/Brains/Firebase.dart';
 
 final PageController _warriorPageCtrl = PageController();
 List<Map<String, String>> warriorHistory = [
-  {
+/*  {
     "dt": DateTime.now().toIso8601String(),
     "patientId": "123412341234",
-    "patientName": "Mr./Ms. Blah Blah",
     "vaccineType": "Pfyzer-2D",
     "vailId": "shtthfkup77tsf7gib",
-  },
-  {
-    "dt": DateTime.now().toIso8601String(),
-    "patientId": "123412341234",
-    "patientName": "Mr./Ms. Blah Blah",
-    "vaccineType": "Pfyzer-2D",
-    "vailId": "shtthfkup77tsf7gib",
-  },
-  {
-    "dt": DateTime.now().toIso8601String(),
-    "patientId": "123412341234",
-    "patientName": "Mr./Ms. Blah Blah",
-    "vaccineType": "Pfyzer-2D",
-    "vailId": "shtthfkup77tsf7gib",
-  },
-  {
-    "dt": DateTime.now().toIso8601String(),
-    "patientId": "123412341234",
-    "patientName": "Mr./Ms. Blah Blah",
-    "vaccineType": "Pfyzer-2D",
-    "vailId": "shtthfkup77tsf7gib",
-  },
-  {
-    "dt": DateTime.now().toIso8601String(),
-    "patientId": "123412341234",
-    "patientName": "Mr./Ms. Blah Blah",
-    "vaccineType": "Pfyzer-2D",
-    "vailId": "shtthfkup77tsf7gib",
-  },
-  {
-    "dt": DateTime.now().toIso8601String(),
-    "patientId": "123412341234",
-    "patientName": "Mr./Ms. Blah Blah",
-    "vaccineType": "Pfyzer-2D",
-    "vailId": "shtthfkup77tsf7gib",
-  },
-  {
-    "dt": DateTime.now().toIso8601String(),
-    "patientId": "123412341234",
-    "patientName": "Mr./Ms. Blah Blah",
-    "vaccineType": "Pfyzer-2D",
-    "vailId": "shtthfkup77tsf7gib",
-  }
+  }*/
 ];
 
 class WarriorPageOffset extends ChangeNotifier {
@@ -414,10 +371,10 @@ class _WarriorHistoryListState extends State<WarriorHistoryList> {
                   child: ExpansionTile(
                     childrenPadding: EdgeInsets.symmetric(horizontal: 16.0),
                     title: Text(
-                      record["patientName"],
+                      record["patientId"],
                       style: TextStyle(
                         fontFamily: "Agus",
-                        fontSize: 18,
+                        fontSize: 21,
                       ),
                     ),
                     subtitle: Padding(
@@ -485,8 +442,13 @@ class _WarriorNewRecordState extends State<WarriorNewRecord> {
   double ht, wd, top;
   TextEditingController warriorAadharInputCtrl;
   FocusNode warriorAadharInputFocusNode;
-  Map<String, String> vailQRDetails = {
-    "timeStamp": DateTime.now().toIso8601String()
+  Map<String, String> vailQRDetails = {};
+  Set<String> vailQRKeys = {
+    "vailId",
+    "manufacturer",
+    "name",
+    "batch",
+    "timeStamp"
   };
 
   @override
@@ -553,11 +515,10 @@ class _WarriorNewRecordState extends State<WarriorNewRecord> {
           ), //Aadhar Input
           Positioned(
             top: ht * 0.3,
-            height: ht * 0.6,
+            height: ht * 0.5,
             child: Container(
-              height: ht * 0.6,
+              height: ht * 0.5,
               width: wd,
-              // color: Colors.red,
               child: Stack(
                 children: [
                   Visibility(
@@ -568,15 +529,26 @@ class _WarriorNewRecordState extends State<WarriorNewRecord> {
                         width: 165,
                         child: RaisedButton(
                           onPressed: () async {
-                            await Permission.camera.request();
                             try {
+                              await Permission.camera.request();
                               String vailJSON = await qrScanner.scan();
                               Map<String, dynamic> vailJSONMap =
                                   json.decode(vailJSON);
-                              vailJSONMap.forEach((key, value) {
-                                  vailQRDetails.addAll({key: value});
-                              });
+                              vailJSONMap
+                                ..forEach((key, value) {
+                                  print(key);
+                                  if (vailQRKeys.contains(key))
+                                    vailQRDetails.addAll({key: value});
+                                  else {
+                                    vailQRDetails = {};
+                                    return;
+                                  }
+                                });
                               setState(() {});
+                            } on FormatException catch (format) {
+                              print('Invalid QR Code');
+                              //ToDo: Error for Invalid QR Code.
+                              print(format.message);
                             } catch (e) {
                               print(e);
                             }
@@ -609,7 +581,6 @@ class _WarriorNewRecordState extends State<WarriorNewRecord> {
                   Visibility(
                     visible: vailQRDetails.isNotEmpty,
                     child: Container(
-                      alignment: Alignment.center,
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
@@ -658,8 +629,9 @@ class _WarriorNewRecordState extends State<WarriorNewRecord> {
                             alignment: Alignment.center,
                             color: Colors.white,
                             child: Text(
-                              // "",
-                              "${DateTime.parse(vailQRDetails["timeStamp"]).day}/${DateTime.parse(vailQRDetails["timeStamp"]).month}/${DateTime.parse(vailQRDetails["timeStamp"]).year} - ${DateTime.parse(vailQRDetails["timeStamp"]).hour}:${DateTime.parse(vailQRDetails["timeStamp"]).minute}",
+                              vailQRDetails["timeStamp"] == null
+                                  ? ""
+                                  : "${DateTime.parse(vailQRDetails["timeStamp"]).day}/${DateTime.parse(vailQRDetails["timeStamp"]).month}/${DateTime.parse(vailQRDetails["timeStamp"]).year} - ${DateTime.parse(vailQRDetails["timeStamp"]).hour}:${DateTime.parse(vailQRDetails["timeStamp"]).minute}",
                               style: TextStyle(
                                 fontFamily: "Agus",
                                 fontSize: 18,
@@ -671,6 +643,102 @@ class _WarriorNewRecordState extends State<WarriorNewRecord> {
                     ),
                   ),
                 ],
+              ),
+            ),
+          ),
+          Positioned(
+            top: ht * 0.8,
+            height: ht * 0.2,
+            width: wd,
+            child: Visibility(
+              visible: vailQRDetails.isNotEmpty,
+              child: Container(
+                alignment: Alignment.center,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Container(
+                      height: ht * 0.07,
+                      width: wd * 0.315,
+                      margin: EdgeInsets.only(right: 15),
+                      child: RaisedButton(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                        color: Colors.white,
+                        elevation: 2,
+                        onPressed: () async {
+                          try {
+                            await Permission.camera.request();
+                            String vailJSON = await qrScanner.scan();
+                            Map<String, dynamic> vailJSONMap =
+                                json.decode(vailJSON);
+                            vailJSONMap.forEach((key, value) {
+                              if (key == "vailId" ||
+                                  key == "manufacturer" ||
+                                  key == "name" ||
+                                  key == "batch" ||
+                                  key == "timeStamp")
+                                vailQRDetails.addAll({key: value});
+                              else
+                                vailQRDetails = {};
+                            });
+                            setState(() {});
+                          } on FormatException catch (format) {
+                            print('Invalid QR Code');
+                            //ToDo: Error for Invalid QR Code.
+                            print(format.message);
+                          } catch (e) {
+                            print(e);
+                          }
+                        },
+                        child: Text(
+                          "Re-Scan QR",
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.normal,
+                            fontFamily: "Agus",
+                          ),
+                        ),
+                      ),
+                    ),
+                    Container(
+                      height: ht * 0.07,
+                      width: wd * 0.285,
+                      margin: EdgeInsets.only(left: 15),
+                      child: RaisedButton(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                        color: Colors.lightBlueAccent,
+                        elevation: 2,
+                        onPressed: () {
+                          warriorHistory.insert(0, {
+                            "dt": DateTime.now().toIso8601String(),
+                            "patientId": warriorAadharInputCtrl.value.text,
+                            "vaccineType":
+                                "${vailQRDetails["manufacturer"]}-${vailQRDetails["name"]}",
+                            "vailId": vailQRDetails["vailId"],
+                          });
+                          vailQRDetails = {};
+                          warriorAadharInputCtrl.text = "";
+                          setState(() {});
+                          _warriorPageCtrl.animateToPage(0,
+                              duration: Duration(milliseconds: 500),
+                              curve: Curves.decelerate);
+                        },
+                        child: Text(
+                          "Add",
+                          style: TextStyle(
+                            fontSize: 18,
+                            fontFamily: "Agus",
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
           ),

@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:vaccine_distribution/Beauty/PatientAuthentication.dart';
 import 'package:vaccine_distribution/Beauty/PatientDashboard.dart';
+import 'package:vaccine_distribution/Beauty/WarriorDashboard.dart';
 import 'package:vaccine_distribution/Brains/Firebase.dart';
 
 //enum userCategories { Admin, Producer, Distributor, Warrior, Patient }
@@ -759,6 +760,7 @@ class _LoginScreenState extends State<LoginScreen>
         break;
       case '3':
         print('Link Warrior Dashboard');
+        Navigator.push(context, MaterialPageRoute(builder: (context) => WarriorDashboard()));
         break;
       case '4':
         if(userStatus[1] == '0')  {
