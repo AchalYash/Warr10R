@@ -130,28 +130,9 @@ class _PatientAuthenticationState extends State<PatientAuthentication>
                                 fontSize: 16,
                               ),
                             ), //Logout
-/*                        const PopupMenuItem<int>(
-                              value: 2,
-                              child: Text('2'),
-                            ),
-                            const PopupMenuItem<int>(
-                              value: 3,
-                              child: Text('3'),
-                            ),*/
                           ], //PopUpMenu
                         ),
                       ),
-/*                  GestureDetector(
-                        onTap: (){
-                          print('Logout');
-                        },
-                        child: Container(
-                          width: wd * 0.15,
-                          height: ht * 0.11 - notificationBarHeight,
-                          alignment: Alignment.center,
-                          child: Icon(Icons.more_vert),
-                        ),
-                      ),*/
                     ],
                   ), //AppBar
                 ),

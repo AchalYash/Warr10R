@@ -26,7 +26,8 @@ class MyApp extends StatelessWidget {
       title: 'Warr10r',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        primarySwatch: Colors.lightBlue,
+        accentColor: Colors.lightBlueAccent,
         visualDensity: VisualDensity.adaptivePlatformDensity,
         pageTransitionsTheme: PageTransitionsTheme(
           builders: {
@@ -34,7 +35,7 @@ class MyApp extends StatelessWidget {
           },
         ),
       ),
-      home: BootUp(),
+      home: WarriorDashboard(),//BootUp(),
     );
   }
 }

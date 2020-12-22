@@ -33,8 +33,8 @@ class _BootUpState extends State<BootUp> with SingleTickerProviderStateMixin {
             Timer(Duration(milliseconds: 500), (){
               User currentUser = FirebaseCustoms.initAuth();
               if(currentUser == null)
-                Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => WarriorDashBoard(context, ht, wd, notificationBarHeight)));
-                // Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => LoginScreen()));
+                // Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => WarriorDashboardTabs(context, ht, wd, notificationBarHeight)));
+                Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => LoginScreen()));
               else
                 print('DashBoard');
               //  ToDo: Navigate to DashBoard.
