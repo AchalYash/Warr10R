@@ -766,17 +766,20 @@ class _LoginScreenState extends State<LoginScreen>
       case '3':
         print('Link Warrior Dashboard');
         password.text = "";
+        userCategoryIndex = -1;
         Navigator.push(context, MaterialPageRoute(builder: (context) => WarriorDashboard()));
         break;
       case '4':
         if(userStatus[1] == '0')  {
           print('Patient Authentication');
           password.text = "";
+          userCategoryIndex = -1;
           Navigator.push(context, MaterialPageRoute(builder: (context) => PatientAuthentication()));
         }
         else {
           print('Link Patient Dashboard');
           password.text = "";
+          userCategoryIndex = -1;
           Navigator.push(context, MaterialPageRoute(builder: (context) => PatientDashboard()));
         }
         break;
