@@ -371,7 +371,7 @@ class _WarriorHistoryListState extends State<WarriorHistoryList> {
                   child: ExpansionTile(
                     childrenPadding: EdgeInsets.symmetric(horizontal: 16.0),
                     title: Text(
-                      record["patientId"],
+                      "${record["patientId"]}",
                       style: TextStyle(
                         fontFamily: "Agus",
                         fontSize: 21,
@@ -393,7 +393,7 @@ class _WarriorHistoryListState extends State<WarriorHistoryList> {
                       Padding(
                         padding: const EdgeInsets.only(top: 4.0),
                         child: Text(
-                          record["vailId"],
+                          "Vial: ${record["vailId"]}",
                           style: TextStyle(
                             fontFamily: "Agus",
                             fontSize: 18,
