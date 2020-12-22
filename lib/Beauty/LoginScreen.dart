@@ -595,6 +595,7 @@ class _LoginScreenState extends State<LoginScreen>
                                           });
                                           break;
                                         case 1:
+                                          registrationOptions = false;
                                           dashboard();
                                           break;
                                         case -1:
@@ -654,6 +655,10 @@ class _LoginScreenState extends State<LoginScreen>
                                           setState(() {
                                             errorKey = 1;
                                           });
+                                          break;
+                                        case 1:
+                                          registrationOptions = false;
+                                          dashboard();
                                           break;
                                         case -1:
                                           setState(() {
@@ -760,6 +765,7 @@ class _LoginScreenState extends State<LoginScreen>
         break;
       case '3':
         print('Link Warrior Dashboard');
+        password.text = "";
         Navigator.push(context, MaterialPageRoute(builder: (context) => WarriorDashboard()));
         break;
       case '4':
