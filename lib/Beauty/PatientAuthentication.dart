@@ -1,6 +1,9 @@
+
 import 'package:flutter/material.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:vaccine_distribution/Beauty/PatientDashboard.dart';
 import 'package:vaccine_distribution/Brains/Firebase.dart';
+import 'package:location/location.dart';
 
 class PatientAuthentication extends StatefulWidget {
   @override
@@ -270,13 +273,24 @@ class _PatientAuthenticationState extends State<PatientAuthentication>
                       borderRadius: BorderRadius.circular(10),
                     ),
                     color: Colors.lightBlueAccent,
-                    onPressed: () {
+                    onPressed: () async {
+
+
+
+                      await Permission.locationWhenInUse.request();
+                      if(await Permission.locationWhenInUse.isGranted) {
+                        var location = await Location().getLocation();
+                        print(location.latitude);
+                        print(location.longitude);
+                      }
+
                       /*animCtrl.forward().then((value) {
                         _otpInput = false;
                         animCtrl.reverse();
                       });*/
                       if(otpTextCtrl.value.text.isNotEmpty)
-                        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => PatientDashboard()));
+                        print('Patient Dashboard');
+                      // Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => PatientDashboard()));
                     },
                     child: Text("Submit"),
                   ),
