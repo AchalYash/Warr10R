@@ -16,13 +16,15 @@ class _PatientAuthenticationState extends State<PatientAuthentication>
   int _popupMenuSelection;
   AnimationController animCtrl;
   Animation anim;
-  bool _otpInput;
+  bool _otpInput, displayMessage;
   FocusNode aadharNumberNode, otpNode;
   TextEditingController aadharTextCtrl, otpTextCtrl;
 
   @override
   void initState() {
+    super.initState();
     _otpInput = false;
+    displayMessage = false;
     animCtrl = AnimationController(
       duration: Duration(milliseconds: 250),
       vsync: this,
@@ -39,7 +41,6 @@ class _PatientAuthenticationState extends State<PatientAuthentication>
     otpNode = FocusNode();
     aadharTextCtrl = TextEditingController();
     otpTextCtrl = TextEditingController();
-    super.initState();
   }
 
   @override
@@ -184,6 +185,26 @@ class _PatientAuthenticationState extends State<PatientAuthentication>
                   ),
                 ),
               ), //OTPInputs
+              Positioned(
+                top: ht * 0.8,
+                child: Visibility(
+                  visible: displayMessage,
+                  child: Container(
+                    width: wd,
+                    height: ht * 0.1,
+                    // color: Colors.red,
+                    alignment: Alignment.center,
+                    child: Text(
+                      "Updating Location",
+                      style: TextStyle(
+                        fontFamily: "Agus",
+                        fontSize: 18,
+                        color: Colors.green,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
             ],
           ),
         ),
@@ -273,24 +294,35 @@ class _PatientAuthenticationState extends State<PatientAuthentication>
                       borderRadius: BorderRadius.circular(10),
                     ),
                     color: Colors.lightBlueAccent,
-                    onPressed: () async {
+                    disabledColor: Colors.white,
+                    onPressed: displayMessage? null :
+                        () async {
 
-
+                      setState(() {
+                        displayMessage = true;
+                      });
 
                       await Permission.locationWhenInUse.request();
                       if(await Permission.locationWhenInUse.isGranted) {
                         var location = await Location().getLocation();
                         print(location.latitude);
                         print(location.longitude);
+
+                        setState(() {
+                          displayMessage = false;
+                        });
+
+                        if(otpTextCtrl.value.text.isNotEmpty) {
+                          Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => PatientDashboard()));
+                        }
+                        // print('Patient Dashboard');
+
                       }
 
                       /*animCtrl.forward().then((value) {
                         _otpInput = false;
                         animCtrl.reverse();
                       });*/
-                      if(otpTextCtrl.value.text.isNotEmpty)
-                        print('Patient Dashboard');
-                      // Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => PatientDashboard()));
                     },
                     child: Text("Submit"),
                   ),

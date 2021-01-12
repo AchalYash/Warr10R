@@ -21,7 +21,6 @@ class MyApp extends StatelessWidget {
       statusBarIconBrightness: Brightness.dark,
     ));
 
-
     return MaterialApp(
       title: 'Warr10r',
       debugShowCheckedModeBanner: false,

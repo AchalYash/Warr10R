@@ -27,10 +27,14 @@ class _PatientDashboardState extends State<PatientDashboard> {
   ];
 
   List<String> precautions = [
-    "Mild Pain",
+    "Pain",
+    "Redness",
+    "Itching",
     "Swelling",
-    "Mild Fever",
+    "Fever",
     "Headache",
+    "Stiffness in Arm",
+    "Malaise",
   ];
 
   @override

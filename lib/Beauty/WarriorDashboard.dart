@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+import 'package:http/http.dart' as http;
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/all.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -713,7 +715,7 @@ class _WarriorNewRecordState extends State<WarriorNewRecord> {
                         ),
                         color: Colors.lightBlueAccent,
                         elevation: 2,
-                        onPressed: () {
+                        onPressed: () async {
                           warriorHistory.insert(0, {
                             "dt": DateTime.now().toIso8601String(),
                             "patientId": warriorAadharInputCtrl.value.text,
@@ -727,6 +729,24 @@ class _WarriorNewRecordState extends State<WarriorNewRecord> {
                           _warriorPageCtrl.animateToPage(0,
                               duration: Duration(milliseconds: 500),
                               curve: Curves.decelerate);
+
+                          var url = Uri.parse('http://achalapoorvashutosh.pythonanywhere.com/transactions/new');
+                          var headers = {
+                            'Content-Type': 'application/json'
+                          };
+                          var body = jsonEncode({"v_id": vailQRDetails["vailId"],"p_id": warriorAadharInputCtrl.value.text,"d_id": FirebaseCustoms.auth.currentUser.email,"block_index": "0","time": DateTime.now().toIso8601String()});
+                          var resp = await http.post(url, body: body, headers: headers);
+
+                          print(resp.statusCode);
+
+                          if(resp.statusCode == 200)  {
+                            print(resp.body);
+                          } else  {
+                            print(resp.reasonPhrase);
+                            print(resp.statusCode);
+                          }
+
+
                         },
                         child: Text(
                           "Add",

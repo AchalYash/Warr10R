@@ -1,10 +1,16 @@
 import 'dart:async';
+import 'dart:convert';
+
+import 'package:http/http.dart' as http;
 
 import 'package:flutter/material.dart';
 import 'package:vaccine_distribution/Beauty/PatientAuthentication.dart';
 import 'package:vaccine_distribution/Beauty/PatientDashboard.dart';
 import 'package:vaccine_distribution/Beauty/WarriorDashboard.dart';
 import 'package:vaccine_distribution/Brains/Firebase.dart';
+
+
+//265
 
 //enum userCategories { Admin, Producer, Distributor, Warrior, Patient }
 
@@ -245,6 +251,58 @@ class _LoginScreenState extends State<LoginScreen>
                               width: wd * 0.3,
                               child: RaisedButton(
                                 onPressed: () async {
+
+/*                                  //
+                                  var url = Uri.parse('http://achalapoorvashutosh.pythonanywhere.com/vial');
+                                  var headers = {
+                                    'Content-Type': 'application/json'
+                                  };
+                                  var body = jsonEncode({"v_id": "Vial2","p_id": "Pat1","d_id": "Doc1","block_index": "0","time": DateTime.now().toIso8601String()});
+                                  var resp = await http.post(url, body: body, headers: headers);
+
+                                  print(resp.statusCode);
+
+                                  if(resp.statusCode == 200)  {
+                                    print(resp.body);
+                                  } else  {
+                                    print(resp.reasonPhrase);
+                                    print(resp.statusCode);
+                                  }*/
+/*
+                                  var url = Uri.parse('http://achalapoorvashutosh.pythonanywhere.com/transactions/new');
+                                  var headers = {
+                                    'Content-Type': 'application/json'
+                                  };
+                                  var body = jsonEncode({"v_id": "Vial2","p_id": "Pat1","d_id": "Doc1","block_index": "0","time": DateTime.now().toIso8601String()});
+                                  var resp = await http.post(url, body: body, headers: headers);
+
+                                  print(resp.statusCode);
+
+                                  if(resp.statusCode == 200)  {
+                                    print(resp.body);
+                                  } else  {
+                                    print(resp.reasonPhrase);
+                                    print(resp.statusCode);
+                                  }
+*/
+
+/*                                  var headers = {
+                                    'Content-Type': 'application/json'
+                                  };
+
+                                  var request = http.Request('POST', Uri.parse('http://achalapoorvashutosh.pythonanywhere.com/transactions/new?v_id=d4ee26eee15148ee92c6cd394edd974e&p_id=someone-other-address&d_id=5&block_index=0&time=23'));
+                                  request.body = '''{\r\n     "v_id": "V1",\r\n     "p_id": "P1",\r\n     "d_id": "D1",\r\n     "block_index": "B",\r\n     "time": "T"\r\n}''';
+                                  request.headers.addAll(headers);
+
+                                  http.StreamedResponse response = await request.send();
+
+                                  if (response.statusCode == 200) {
+                                    print(await response.stream.bytesToString());
+                                  }
+                                  else {
+                                    print(response.reasonPhrase);
+                                  }*/
+
                                   // print("noideayettt@gmail.com");
                                   // print("Password");
                                   int errorCode = validateInputs(1,

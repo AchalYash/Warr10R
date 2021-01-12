@@ -30,6 +30,7 @@ dependencies:
   qrscan: ^0.2.21
   flutter_riverpod: ^0.12.1
   location: ^3.2.1
+  http: ^0.12.2
   # qr_flutter: ^3.1.0
   # rive: ^0.6.3
 
