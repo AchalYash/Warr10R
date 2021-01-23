@@ -1,13 +1,14 @@
 import 'dart:async';
-import 'dart:convert';
+// import 'dart:convert';
 
 import 'package:http/http.dart' as http;
 
 import 'package:flutter/material.dart';
-import 'package:vaccine_distribution/Beauty/PatientAuthentication.dart';
-import 'package:vaccine_distribution/Beauty/PatientDashboard.dart';
-import 'package:vaccine_distribution/Beauty/WarriorDashboard.dart';
-import 'package:vaccine_distribution/Brains/Firebase.dart';
+import 'package:vaccine_distribution/BackEnd/BlockChain.dart';
+import 'package:vaccine_distribution/UI/PatientAuthentication.dart';
+import 'package:vaccine_distribution/UI/PatientDashboard.dart';
+import 'package:vaccine_distribution/UI/WarriorDashboard.dart';
+import 'package:vaccine_distribution/BackEnd/Firebase.dart';
 
 
 //265
@@ -252,6 +253,11 @@ class _LoginScreenState extends State<LoginScreen>
                               child: RaisedButton(
                                 onPressed: () async {
 
+                                  BlockChain.getVialDetails("V1");
+
+                                  // var x = await http.get(Uri.parse('http://achalapoorvashutosh.pythonanywhere.com/get_vial_info/V1'));
+                                  // print(x.body);
+
 /*                                  //
                                   var url = Uri.parse('http://achalapoorvashutosh.pythonanywhere.com/vial');
                                   var headers = {
@@ -305,7 +311,7 @@ class _LoginScreenState extends State<LoginScreen>
 
                                   // print("noideayettt@gmail.com");
                                   // print("Password");
-                                  int errorCode = validateInputs(1,
+/*                                  int errorCode = validateInputs(1,
                                       mail: mail.value.text,
                                       password: password.value.text);
                                   setState(() {
@@ -340,7 +346,7 @@ class _LoginScreenState extends State<LoginScreen>
                                           });
                                       }
                                     });
-                                  }
+                                  }*/
                                 },
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(10),

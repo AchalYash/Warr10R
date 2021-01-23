@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/all.dart';
-import 'package:vaccine_distribution/Beauty/BootUp.dart';
-import 'package:vaccine_distribution/Beauty/PatientAuthentication.dart';
-import 'package:vaccine_distribution/Beauty/WarriorDashboard.dart';
+import 'package:vaccine_distribution/UI/BootUp.dart';
+import 'package:vaccine_distribution/UI/DisplayVialDetails.dart';
+import 'package:vaccine_distribution/UI/PatientAuthentication.dart';
+import 'package:vaccine_distribution/UI/WarriorDashboard.dart';
 
 void main() {
   runApp(ProviderScope(child: MyApp()));
@@ -34,7 +35,7 @@ class MyApp extends StatelessWidget {
           },
         ),
       ),
-      home: BootUp(),
+      home: DisplayVialDetails(),//BootUp(),
     );
   }
 }

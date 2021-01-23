@@ -24,7 +24,7 @@ dependencies:
   flutter:
     sdk: flutter
   firebase: ^7.3.3
-  firebase_core: "0.5.3"
+  firebase_core: ^0.5.3
   firebase_auth: ^0.18.4+1
   permission_handler: ^5.0.1+1
   qrscan: ^0.2.21

@@ -1,8 +1,8 @@
 
 import 'package:flutter/material.dart';
 import 'package:permission_handler/permission_handler.dart';
-import 'package:vaccine_distribution/Beauty/PatientDashboard.dart';
-import 'package:vaccine_distribution/Brains/Firebase.dart';
+import 'package:vaccine_distribution/UI/PatientDashboard.dart';
+import 'package:vaccine_distribution/BackEnd/Firebase.dart';
 import 'package:location/location.dart';
 
 class PatientAuthentication extends StatefulWidget {

@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/all.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:qrscan/qrscan.dart' as qrScanner;
-import 'package:vaccine_distribution/Brains/Firebase.dart';
+import 'package:vaccine_distribution/BackEnd/Firebase.dart';
 
 final PageController _warriorPageCtrl = PageController();
 List<Map<String, String>> warriorHistory = [
@@ -514,7 +514,7 @@ class _WarriorNewRecordState extends State<WarriorNewRecord> {
                 keyboardType: TextInputType.number,
               ),
             ),
-          ), //Aadhar Input
+          ),  //Aadhar Input
           Positioned(
             top: ht * 0.3,
             height: ht * 0.5,
@@ -549,6 +549,9 @@ class _WarriorNewRecordState extends State<WarriorNewRecord> {
                               setState(() {});
                             } on FormatException catch (format) {
                               print('Invalid QR Code');
+                              var qrErrorSnack = SnackBar(
+                                content: Text("Invalid Input"),
+                              );
                               //ToDo: Error for Invalid QR Code.
                               print(format.message);
                             } catch (e) {
@@ -579,7 +582,7 @@ class _WarriorNewRecordState extends State<WarriorNewRecord> {
                         ),
                       ),
                     ),
-                  ),
+                  ),  //QR Scanner
                   Visibility(
                     visible: vailQRDetails.isNotEmpty,
                     child: Container(
@@ -643,11 +646,11 @@ class _WarriorNewRecordState extends State<WarriorNewRecord> {
                         ],
                       ),
                     ),
-                  ),
+                  ),  //QR Details
                 ],
               ),
             ),
-          ),
+          ),  //QR Scanner + Details
           Positioned(
             top: ht * 0.8,
             height: ht * 0.2,
@@ -723,18 +726,14 @@ class _WarriorNewRecordState extends State<WarriorNewRecord> {
                                 "${vailQRDetails["manufacturer"]}-${vailQRDetails["name"]}",
                             "vailId": vailQRDetails["vailId"],
                           });
-                          vailQRDetails = {};
-                          warriorAadharInputCtrl.text = "";
-                          setState(() {});
-                          _warriorPageCtrl.animateToPage(0,
-                              duration: Duration(milliseconds: 500),
-                              curve: Curves.decelerate);
 
                           var url = Uri.parse('http://achalapoorvashutosh.pythonanywhere.com/transactions/new');
                           var headers = {
                             'Content-Type': 'application/json'
                           };
                           var body = jsonEncode({"v_id": vailQRDetails["vailId"],"p_id": warriorAadharInputCtrl.value.text,"d_id": FirebaseCustoms.auth.currentUser.email,"block_index": "0","time": DateTime.now().toIso8601String()});
+
+                          print(body);
                           var resp = await http.post(url, body: body, headers: headers);
 
                           print(resp.statusCode);
@@ -746,6 +745,12 @@ class _WarriorNewRecordState extends State<WarriorNewRecord> {
                             print(resp.statusCode);
                           }
 
+                          vailQRDetails = {};
+                          warriorAadharInputCtrl.text = "";
+                          setState(() {});
+                          _warriorPageCtrl.animateToPage(0,
+                              duration: Duration(milliseconds: 500),
+                              curve: Curves.decelerate);
 
                         },
                         child: Text(
@@ -761,7 +766,7 @@ class _WarriorNewRecordState extends State<WarriorNewRecord> {
                 ),
               ),
             ),
-          ),
+          ),  //Action Buttons
         ],
       ),
     );
