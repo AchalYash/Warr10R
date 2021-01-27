@@ -24,8 +24,32 @@ class BlockChain  {
     return vialDetails;
   }
 
-  static int addVialDetails() {
-   return 0;
+  static Future<Map<int, String>> addVialDetails(String id, String sender, String receiver, DateTime timeStamp) async {
+    Map<int, String> toReturn = {-1: "Failure"};
+    var response;
+
+    try{
+      var url = Uri.parse('http://achalapoorvashutosh.pythonanywhere.com/transactions/new');
+      var headers = {
+        'Content-Type': 'application/json'
+      };
+      var body = jsonEncode({"v_id": id,"p_id": receiver,"d_id": sender,"block_index": "0","time": timeStamp.toIso8601String()});
+
+      response = await http.post(url, body: body, headers: headers);
+
+      if(response.statusCode == 200)  {
+        toReturn = {1 : response.body};
+      } else  {
+        toReturn = {response.statusCode : response.reasonPhrase};
+        // print(resp.reasonPhrase);
+        // print(resp.statusCode);
+      }
+
+    } catch(e){
+      print(e);
+    }
+
+    return toReturn;
   }
 
 

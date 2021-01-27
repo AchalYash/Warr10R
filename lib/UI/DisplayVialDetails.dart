@@ -193,20 +193,22 @@ class _DisplayVialDetailsState extends State<DisplayVialDetails> {
 
                   List<Map<String, dynamic>> vialDetailsList = dataSnap.data;
 
-                  return Visibility(
-                    visible: dataSnap.hasData,
-                    child: Container(
-                      height: ht * 0.8,
-                      width: wd,
-                      child: ListView(
-                        children: vialDetailsList.map((transaction) {
-                          return ListTile(
-                            title: Text(transaction["time"]),
-                          );
-                        }).toList(),
+                  if(dataSnap.hasData)  {
+                    return Visibility(
+                      visible: dataSnap.hasData,
+                      child: Container(
+                        height: ht * 0.8,
+                        width: wd,
+                        child: ListView(
+                          children: vialDetailsList.map((transaction) {
+                            return VialDetailsTile(transaction);
+                          }).toList(),
+                        ),
                       ),
-                    ),
-                  );
+                    );
+                  }
+                  else
+                    return Container();
                 },
               ),
             ),  //Details List
@@ -275,6 +277,20 @@ class _DisplayVialDetailsState extends State<DisplayVialDetails> {
           ],
         ),
       ),
+    );
+  }
+}
+
+
+class VialDetailsTile extends StatelessWidget {
+
+  VialDetailsTile(this.transaction);
+  final Map<String, dynamic> transaction;
+
+  @override
+  Widget build(BuildContext context) {
+    return ListTile(
+      title: Text(transaction["time"]),
     );
   }
 }

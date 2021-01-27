@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/all.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:qrscan/qrscan.dart' as qrScanner;
+import 'package:vaccine_distribution/BackEnd/BlockChain.dart';
 import 'package:vaccine_distribution/BackEnd/Firebase.dart';
 
 final PageController _warriorPageCtrl = PageController();
@@ -727,6 +728,7 @@ class _WarriorNewRecordState extends State<WarriorNewRecord> {
                             "vailId": vailQRDetails["vailId"],
                           });
 
+/*
                           var url = Uri.parse('http://achalapoorvashutosh.pythonanywhere.com/transactions/new');
                           var headers = {
                             'Content-Type': 'application/json'
@@ -737,13 +739,11 @@ class _WarriorNewRecordState extends State<WarriorNewRecord> {
                           var resp = await http.post(url, body: body, headers: headers);
 
                           print(resp.statusCode);
+*/
 
-                          if(resp.statusCode == 200)  {
-                            print(resp.body);
-                          } else  {
-                            print(resp.reasonPhrase);
-                            print(resp.statusCode);
-                          }
+                          Map<int, String> responseStatus = await BlockChain.addVialDetails(vailQRDetails["vailId"], FirebaseCustoms.auth.currentUser.email, warriorAadharInputCtrl.value.text, DateTime.now());
+
+                          print(responseStatus);
 
                           vailQRDetails = {};
                           warriorAadharInputCtrl.text = "";
