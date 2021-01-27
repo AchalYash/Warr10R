@@ -10,7 +10,6 @@ class DisplayVialDetails extends StatefulWidget {
 }
 
 class _DisplayVialDetailsState extends State<DisplayVialDetails> {
-
   double ht, wd, notificationBarHeight;
   bool searchData = false;
   TextEditingController vialIdCtrl;
@@ -51,33 +50,42 @@ class _DisplayVialDetailsState extends State<DisplayVialDetails> {
     ht = MediaQuery.of(context).size.height;
     wd = MediaQuery.of(context).size.width;
     notificationBarHeight = MediaQuery.of(context).padding.top;
-
   }
 
   @override
   void dispose() {
-
     vialIdCtrl.dispose();
     vialIdNode.dispose();
 
     super.dispose();
   }
 
-
   Future<List<Map<String, dynamic>>> vialIdFuture(String vialId) async {
-    if(!searchData)
-      return null;
+    if (!searchData) return null;
 
-    if((vialId == null || vialId.isEmpty))  {
-      _vialDetailsScaffoldKey.currentState.showSnackBar(_displaySnackBar("Invalid Vial Id", Colors.deepOrange, Duration(seconds: 10),),);
+    if ((vialId == null || vialId.isEmpty)) {
+      _vialDetailsScaffoldKey.currentState.showSnackBar(
+        _displaySnackBar(
+          "Invalid Vial Id",
+          Colors.deepOrange,
+          Duration(seconds: 10),
+        ),
+      );
       searchData = false;
       return null;
     }
 
+
     List<Map<String, dynamic>> vialDetails = await BlockChain.getVialDetails(vialId);
 
-    if(vialDetails == null || vialDetails.isEmpty) {
-      _vialDetailsScaffoldKey.currentState.showSnackBar(_displaySnackBar("Data Unavailable", Colors.deepOrange, Duration(seconds: 10),),);
+    if (vialDetails == null || vialDetails.isEmpty) {
+      _vialDetailsScaffoldKey.currentState.showSnackBar(
+        _displaySnackBar(
+          "Data Unavailable",
+          Colors.deepOrange,
+          Duration(seconds: 10),
+        ),
+      );
       searchData = false;
       return null;
     }
@@ -86,11 +94,10 @@ class _DisplayVialDetailsState extends State<DisplayVialDetails> {
     return vialDetails;
   }
 
-
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: (){
+      onTap: () {
         FocusScope.of(context).requestFocus(FocusNode());
       },
       child: Scaffold(
@@ -123,61 +130,81 @@ class _DisplayVialDetailsState extends State<DisplayVialDetails> {
                         ),
                       ),
                     ), //Patient DashBoard
-                    Container(
-                      width: wd * 0.15,
-                      height: ht * 0.11 - notificationBarHeight,
-                      alignment: Alignment.center,
-                      child: PopupMenuButton<int>(
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10)),
-                        icon: Icon(Icons.more_vert),
-                        offset: Offset(0, ht * 0.1),
-                        onSelected: (int value) {
-                          print(value);
-                          switch (value) {
-                            case 1:
-                            //ToDo: Implement Refresh ShowCase
-                              break;
-                            case 2:
-                            //ToDo: Implement Details ShowCase
-                              break;
-                            case 3:
-                              FirebaseCustoms.logOut().then((value) {
-                                Navigator.pop(context);
-                              });
-                              break;
-                          }
-                        },
-                        itemBuilder: (BuildContext context) =>
-                        <PopupMenuEntry<int>>[
-                          const PopupMenuItem<int>(
-                            value: 1,
-                            child: Text('Refresh'),
-                            textStyle: TextStyle(
-                              color: Colors.black,
-                              fontFamily: "Agus",
-                              fontSize: 16,
+                    GestureDetector(
+                      onTap: (){
+                        if(searchData)  {
+                          _vialDetailsScaffoldKey.currentState.showSnackBar(
+                            _displaySnackBar(
+                              "Refreshing",
+                              Colors.lightBlueAccent,
+                              Duration(seconds: 5),
                             ),
-                          ), //Refresh
-                          const PopupMenuItem<int>(
-                            value: 1,
-                            child: Text('Details'),
-                            textStyle: TextStyle(
-                              color: Colors.black,
-                              fontFamily: "Agus",
-                              fontSize: 16,
-                            ),
-                          ), //Details
-                          const PopupMenuItem<int>(
-                            value: 3,
-                            child: Text('Logout'),
-                            textStyle: TextStyle(
-                              color: Colors.black,
-                              fontFamily: "Agus",
-                              fontSize: 16,
-                            ),
-                          ), //Logout
-                        ], //PopUpMenu
+                          );
+                          setState(() {});
+                        }
+                      },
+                      child: Container(
+                        width: wd * 0.15,
+                        height: ht * 0.11 - notificationBarHeight,
+                        alignment: Alignment.center,
+                        child: Icon(Icons.refresh),
+/*                      child: PopupMenuButton<int>(
+                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                          icon: Icon(Icons.more_vert),
+                          offset: Offset(0, ht * 0.1),
+                          onSelected: (int value) {
+                            print(value);
+                            switch (value) {
+                              case 1:
+                                _vialDetailsScaffoldKey.currentState.showSnackBar(
+                                  _displaySnackBar(
+                                    "Refreshing",
+                                    Colors.lightBlueAccent,
+                                    Duration(seconds: 5),
+                                  ),
+                                );
+                                vialIdFuture(vialIdCtrl.value.text);
+                                break;
+                              case 2:
+                                //ToDo: Implement Details ShowCase
+                                break;
+                              case 3:
+                                FirebaseCustoms.logOut().then((value) {
+                                  Navigator.pop(context);
+                                });
+                                break;
+                            }
+                          },
+                          itemBuilder: (BuildContext context) => <PopupMenuEntry<int>>[
+                            const PopupMenuItem<int>(
+                              value: 1,
+                              child: Text('Refresh'),
+                              textStyle: TextStyle(
+                                color: Colors.black,
+                                fontFamily: "Agus",
+                                fontSize: 16,
+                              ),
+                            ), //Refresh
+                            const PopupMenuItem<int>(
+                              value: 1,
+                              child: Text('Details'),
+                              textStyle: TextStyle(
+                                color: Colors.black,
+                                fontFamily: "Agus",
+                                fontSize: 16,
+                              ),
+                            ), //Details
+                            const PopupMenuItem<int>(
+                              value: 3,
+                              child: Text('Logout'),
+                              textStyle: TextStyle(
+                                color: Colors.black,
+                                fontFamily: "Agus",
+                                fontSize: 16,
+                              ),
+                            ), //Logout
+                          ], //PopUpMenu
+                        ),*/
                       ),
                     ),
                   ],
@@ -188,12 +215,12 @@ class _DisplayVialDetailsState extends State<DisplayVialDetails> {
               top: ht * 0.13,
               child: FutureBuilder(
                 future: vialIdFuture(vialIdCtrl.value.text),
-                builder: (context, dataSnap)  {
+                builder: (context, dataSnap) {
                   print(dataSnap.data.runtimeType);
 
                   List<Map<String, dynamic>> vialDetailsList = dataSnap.data;
 
-                  if(dataSnap.hasData)  {
+                  if (dataSnap.hasData) {
                     return Visibility(
                       visible: dataSnap.hasData,
                       child: Container(
@@ -206,12 +233,11 @@ class _DisplayVialDetailsState extends State<DisplayVialDetails> {
                         ),
                       ),
                     );
-                  }
-                  else
+                  } else
                     return Container();
                 },
               ),
-            ),  //Details List
+            ), //Details List
             Positioned(
               top: ht * 0.35,
               left: wd * 0.1,
@@ -237,7 +263,7 @@ class _DisplayVialDetailsState extends State<DisplayVialDetails> {
                   ),
                 ),
               ),
-            ),  //Vial Id Input
+            ), //Vial Id Input
             Positioned(
               top: ht * 0.55,
               left: wd * 0.35,
@@ -249,7 +275,11 @@ class _DisplayVialDetailsState extends State<DisplayVialDetails> {
                   child: RaisedButton(
                     onPressed: () async {
                       _vialDetailsScaffoldKey.currentState.showSnackBar(
-                        _displaySnackBar("Searching", Colors.lightBlueAccent, Duration(minutes: 5),),
+                        _displaySnackBar(
+                          "Searching",
+                          Colors.lightBlueAccent,
+                          Duration(minutes: 5),
+                        ),
                       );
 
                       searchData = true;
@@ -273,7 +303,7 @@ class _DisplayVialDetailsState extends State<DisplayVialDetails> {
                   ),
                 ),
               ),
-            ),  //Action Button
+            ), //Action Button
           ],
         ),
       ),
@@ -281,16 +311,36 @@ class _DisplayVialDetailsState extends State<DisplayVialDetails> {
   }
 }
 
-
 class VialDetailsTile extends StatelessWidget {
-
   VialDetailsTile(this.transaction);
+
   final Map<String, dynamic> transaction;
 
   @override
   Widget build(BuildContext context) {
-    return ListTile(
-      title: Text(transaction["time"]),
+    return ExpansionTile(
+      title: Text(transaction["p_id"]),
+      subtitle: Text(
+        transaction["d_id"],
+        style: TextStyle(
+          fontSize: 12,
+        ),
+      ),
+      expandedAlignment: Alignment.centerLeft,
+      expandedCrossAxisAlignment: CrossAxisAlignment.start,
+      childrenPadding: EdgeInsets.only(left: 8.0,),
+      children: [
+        Padding(
+          padding: const EdgeInsets.only(left: 8.0, bottom: 16.0),
+          child: Text(transaction["time"]),
+        ),
+        Divider(
+          indent: 0.0,
+          endIndent: 8.0,
+          color: Colors.black,
+          thickness: 0.5,
+        ),
+      ],
     );
   }
 }
