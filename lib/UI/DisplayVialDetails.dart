@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:vaccine_distribution/BackEnd/BlockChain.dart';
-import 'package:vaccine_distribution/BackEnd/Firebase.dart';
+import 'package:vaccine_distribution/main.dart';
 
 final _vialDetailsScaffoldKey = GlobalKey<ScaffoldState>();
 
@@ -123,7 +123,7 @@ class _DisplayVialDetailsState extends State<DisplayVialDetails> {
                         left: 20,
                       ),
                       child: Text(
-                        "Vial Details",
+                        "VIAL DETAILS",
                         style: TextStyle(
                           fontSize: 21,
                           fontFamily: "Agus",
@@ -319,11 +319,19 @@ class VialDetailsTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ExpansionTile(
-      title: Text(transaction["p_id"]),
-      subtitle: Text(
-        transaction["d_id"],
+      maintainState: false,
+      title: Text(
+        transaction["p_id"].toString().toUpperCase(),
         style: TextStyle(
-          fontSize: 12,
+          fontFamily: "Agus",
+          fontSize: 21,
+        ),
+      ),
+      subtitle: Text(
+        transaction["d_id"].toString().toUpperCase(),
+        style: TextStyle(
+          fontFamily: "Agus",
+          fontSize: 15,
         ),
       ),
       expandedAlignment: Alignment.centerLeft,
@@ -332,7 +340,12 @@ class VialDetailsTile extends StatelessWidget {
       children: [
         Padding(
           padding: const EdgeInsets.only(left: 8.0, bottom: 16.0),
-          child: Text(transaction["time"]),
+          child: Text(
+            dateFormatter(DateTime.parse(transaction["time"])),
+            style: TextStyle(
+              fontFamily: "Agus",
+            ),
+          ),
         ),
         Divider(
           indent: 0.0,
@@ -340,6 +353,7 @@ class VialDetailsTile extends StatelessWidget {
           color: Colors.black,
           thickness: 0.5,
         ),
+
       ],
     );
   }

@@ -253,65 +253,9 @@ class _LoginScreenState extends State<LoginScreen>
                               child: RaisedButton(
                                 onPressed: () async {
 
-                                  BlockChain.getVialDetails("V1");
-
-                                  // var x = await http.get(Uri.parse('http://achalapoorvashutosh.pythonanywhere.com/get_vial_info/V1'));
-                                  // print(x.body);
-
-/*                                  //
-                                  var url = Uri.parse('http://achalapoorvashutosh.pythonanywhere.com/vial');
-                                  var headers = {
-                                    'Content-Type': 'application/json'
-                                  };
-                                  var body = jsonEncode({"v_id": "Vial2","p_id": "Pat1","d_id": "Doc1","block_index": "0","time": DateTime.now().toIso8601String()});
-                                  var resp = await http.post(url, body: body, headers: headers);
-
-                                  print(resp.statusCode);
-
-                                  if(resp.statusCode == 200)  {
-                                    print(resp.body);
-                                  } else  {
-                                    print(resp.reasonPhrase);
-                                    print(resp.statusCode);
-                                  }*/
-/*
-                                  var url = Uri.parse('http://achalapoorvashutosh.pythonanywhere.com/transactions/new');
-                                  var headers = {
-                                    'Content-Type': 'application/json'
-                                  };
-                                  var body = jsonEncode({"v_id": "Vial2","p_id": "Pat1","d_id": "Doc1","block_index": "0","time": DateTime.now().toIso8601String()});
-                                  var resp = await http.post(url, body: body, headers: headers);
-
-                                  print(resp.statusCode);
-
-                                  if(resp.statusCode == 200)  {
-                                    print(resp.body);
-                                  } else  {
-                                    print(resp.reasonPhrase);
-                                    print(resp.statusCode);
-                                  }
-*/
-
-/*                                  var headers = {
-                                    'Content-Type': 'application/json'
-                                  };
-
-                                  var request = http.Request('POST', Uri.parse('http://achalapoorvashutosh.pythonanywhere.com/transactions/new?v_id=d4ee26eee15148ee92c6cd394edd974e&p_id=someone-other-address&d_id=5&block_index=0&time=23'));
-                                  request.body = '''{\r\n     "v_id": "V1",\r\n     "p_id": "P1",\r\n     "d_id": "D1",\r\n     "block_index": "B",\r\n     "time": "T"\r\n}''';
-                                  request.headers.addAll(headers);
-
-                                  http.StreamedResponse response = await request.send();
-
-                                  if (response.statusCode == 200) {
-                                    print(await response.stream.bytesToString());
-                                  }
-                                  else {
-                                    print(response.reasonPhrase);
-                                  }*/
-
                                   // print("noideayettt@gmail.com");
                                   // print("Password");
-/*                                  int errorCode = validateInputs(1,
+                                  int errorCode = validateInputs(1,
                                       mail: mail.value.text,
                                       password: password.value.text);
                                   setState(() {
@@ -346,7 +290,7 @@ class _LoginScreenState extends State<LoginScreen>
                                           });
                                       }
                                     });
-                                  }*/
+                                  }
                                 },
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(10),
@@ -887,3 +831,66 @@ Map<int, String> errorMap = {
 };
 
 */
+
+
+/*
+*
+*
+*                                   // BlockChain.getVialDetails("12345");
+
+                                  // var x = await http.get(Uri.parse('http://achalapoorvashutosh.pythonanywhere.com/get_vial_info/V1'));
+                                  // print(x.body);
+
+/*                                  //
+                                  var url = Uri.parse('http://achalapoorvashutosh.pythonanywhere.com/vial');
+                                  var headers = {
+                                    'Content-Type': 'application/json'
+                                  };
+                                  var body = jsonEncode({"v_id": "Vial2","p_id": "Pat1","d_id": "Doc1","block_index": "0","time": DateTime.now().toIso8601String()});
+                                  var resp = await http.post(url, body: body, headers: headers);
+
+                                  print(resp.statusCode);
+
+                                  if(resp.statusCode == 200)  {
+                                    print(resp.body);
+                                  } else  {
+                                    print(resp.reasonPhrase);
+                                    print(resp.statusCode);
+                                  }*/
+/*
+                                  var url = Uri.parse('http://achalapoorvashutosh.pythonanywhere.com/transactions/new');
+                                  var headers = {
+                                    'Content-Type': 'application/json'
+                                  };
+                                  var body = jsonEncode({"v_id": "Vial2","p_id": "Pat1","d_id": "Doc1","block_index": "0","time": DateTime.now().toIso8601String()});
+                                  var resp = await http.post(url, body: body, headers: headers);
+
+                                  print(resp.statusCode);
+
+                                  if(resp.statusCode == 200)  {
+                                    print(resp.body);
+                                  } else  {
+                                    print(resp.reasonPhrase);
+                                    print(resp.statusCode);
+                                  }
+*/
+
+/*                                  var headers = {
+                                    'Content-Type': 'application/json'
+                                  };
+
+                                  var request = http.Request('POST', Uri.parse('http://achalapoorvashutosh.pythonanywhere.com/transactions/new?v_id=d4ee26eee15148ee92c6cd394edd974e&p_id=someone-other-address&d_id=5&block_index=0&time=23'));
+                                  request.body = '''{\r\n     "v_id": "V1",\r\n     "p_id": "P1",\r\n     "d_id": "D1",\r\n     "block_index": "B",\r\n     "time": "T"\r\n}''';
+                                  request.headers.addAll(headers);
+
+                                  http.StreamedResponse response = await request.send();
+
+                                  if (response.statusCode == 200) {
+                                    print(await response.stream.bytesToString());
+                                  }
+                                  else {
+                                    print(response.reasonPhrase);
+                                  }*/
+
+
+* */

@@ -8,6 +8,7 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:qrscan/qrscan.dart' as qrScanner;
 import 'package:vaccine_distribution/BackEnd/BlockChain.dart';
 import 'package:vaccine_distribution/BackEnd/Firebase.dart';
+import 'package:vaccine_distribution/UI/DisplayVialDetails.dart';
 
 final PageController _warriorPageCtrl = PageController();
 List<Map<String, String>> warriorHistory = [
@@ -45,7 +46,7 @@ class WarriorDashboard extends StatefulWidget {
 
 class _WarriorDashboardState extends State<WarriorDashboard> {
   double ht, wd, notificationBarHeight;
-  int _popupMenuSelection; //ToDo: Remove if Unused
+  // int _popupMenuSelection; //ToDo: Remove if Unused
   PageController warriorPageCtrl;
 
   @override
@@ -115,7 +116,7 @@ class _WarriorDashboardState extends State<WarriorDashboard> {
                             borderRadius: BorderRadius.circular(10)),
                         icon: Icon(Icons.more_vert),
                         offset: Offset(0, ht * 0.1),
-                        onSelected: (int value) {
+                        onSelected: (int value) async {
                           print(value);
                           switch (value) {
                             case 1:
@@ -125,6 +126,9 @@ class _WarriorDashboardState extends State<WarriorDashboard> {
                               //ToDo: Implement Details ShowCase
                               break;
                             case 3:
+                              await Navigator.of(context).push(MaterialPageRoute(builder: (context) => DisplayVialDetails()));
+                              break;
+                            case 4:
                               FirebaseCustoms.logOut().then((value) {
                                 Navigator.pop(context);
                               });
@@ -153,6 +157,15 @@ class _WarriorDashboardState extends State<WarriorDashboard> {
                           ), //Details
                           const PopupMenuItem<int>(
                             value: 3,
+                            child: Text('Vial Search'),
+                            textStyle: TextStyle(
+                              color: Colors.black,
+                              fontFamily: "Agus",
+                              fontSize: 16,
+                            ),
+                          ), //Logout
+                          const PopupMenuItem<int>(
+                            value: 4,
                             child: Text('Logout'),
                             textStyle: TextStyle(
                               color: Colors.black,
@@ -691,6 +704,14 @@ class _WarriorNewRecordState extends State<WarriorNewRecord> {
                                 vailQRDetails = {};
                             });
                             setState(() {});
+
+                          /*
+                          * vailId: '12345',
+                            manufacturer: "Pfyzer",
+                            name: 'BLQ45-HJ',
+                            batch: 'B001',
+                            timeStamp: '2021-01-16T18:32:23+0000',*/
+
                           } on FormatException catch (format) {
                             print('Invalid QR Code');
                             //ToDo: Error for Invalid QR Code.
