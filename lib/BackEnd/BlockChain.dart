@@ -4,6 +4,9 @@ import 'package:http/http.dart' as http;
 
 class BlockChain  {
 
+  static String apiURL = 'Warr10r.pythonanywhere.com/api/';
+
+  //Todo: To update getDetails
   static Future<List<Map<String, dynamic>>> getVialDetails(String vialId) async {
     List<Map<String, dynamic>> vialDetails = [];
 
@@ -24,16 +27,16 @@ class BlockChain  {
     return vialDetails;
   }
 
-  static Future<Map<int, String>> addVialDetails(String id, String sender, String receiver, DateTime timeStamp) async {
+  static Future<Map<int, String>> addDetails(String id, String sender, String receiver, String type) async {
     Map<int, String> toReturn = {-1: "Failure"};
     var response;
 
     try{
-      var url = Uri.parse('http://achalapoorvashutosh.pythonanywhere.com/transactions/new');
+      var url = Uri.parse('${apiURL}transaction/new');
       var headers = {
         'Content-Type': 'application/json'
       };
-      var body = jsonEncode({"v_id": id,"p_id": receiver,"d_id": sender,"block_index": "0","time": timeStamp.toIso8601String()});
+      var body = jsonEncode({"id": id, "sender": sender, "receiver": receiver, "type":type});
 
       response = await http.post(url, body: body, headers: headers);
 

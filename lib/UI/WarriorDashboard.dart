@@ -762,7 +762,7 @@ class _WarriorNewRecordState extends State<WarriorNewRecord> {
                           print(resp.statusCode);
 */
 
-                          Map<int, String> responseStatus = await BlockChain.addVialDetails(vailQRDetails["vailId"], FirebaseCustoms.auth.currentUser.email, warriorAadharInputCtrl.value.text, DateTime.now());
+                          Map<int, String> responseStatus = await BlockChain.addDetails(vailQRDetails["vailId"], warriorAadharInputCtrl.value.text, FirebaseCustoms.auth.currentUser.uid, 'v');
 
                           print(responseStatus);
 
