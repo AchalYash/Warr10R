@@ -7,7 +7,7 @@ class BlockChain  {
   static String apiURL = 'Warr10r.pythonanywhere.com/api/';
 
   //Todo: To update getDetails
-  static Future<List<Map<String, dynamic>>> getVialDetails(String vialId) async {
+  static Future<List<Map<String, dynamic>>> getDetails(String vialId, String type) async {
     List<Map<String, dynamic>> vialDetails = [];
 
     //TODO: Update URL and dataType Names

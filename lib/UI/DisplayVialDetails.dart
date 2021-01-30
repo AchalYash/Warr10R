@@ -76,7 +76,7 @@ class _DisplayVialDetailsState extends State<DisplayVialDetails> {
     }
 
 
-    List<Map<String, dynamic>> vialDetails = await BlockChain.getVialDetails(vialId);
+    List<Map<String, dynamic>> vialDetails = await BlockChain.getDetails(vialId, 'v');
 
     if (vialDetails == null || vialDetails.isEmpty) {
       _vialDetailsScaffoldKey.currentState.showSnackBar(
