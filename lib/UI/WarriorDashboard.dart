@@ -123,12 +123,9 @@ class _WarriorDashboardState extends State<WarriorDashboard> {
                               //ToDo: Implement Refresh ShowCase
                               break;
                             case 2:
-                              //ToDo: Implement Details ShowCase
-                              break;
-                            case 3:
                               await Navigator.of(context).push(MaterialPageRoute(builder: (context) => DisplayVialDetails()));
                               break;
-                            case 4:
+                            case 3:
                               FirebaseCustoms.logOut().then((value) {
                                 Navigator.pop(context);
                               });
@@ -147,17 +144,8 @@ class _WarriorDashboardState extends State<WarriorDashboard> {
                             ),
                           ), //Refresh
                           const PopupMenuItem<int>(
-                            value: 1,
-                            child: Text('Details'),
-                            textStyle: TextStyle(
-                              color: Colors.black,
-                              fontFamily: "Agus",
-                              fontSize: 16,
-                            ),
-                          ), //Details
-                          const PopupMenuItem<int>(
-                            value: 3,
-                            child: Text('Vial Search'),
+                            value: 2,
+                            child: Text('Track Vial'),
                             textStyle: TextStyle(
                               color: Colors.black,
                               fontFamily: "Agus",
@@ -165,7 +153,7 @@ class _WarriorDashboardState extends State<WarriorDashboard> {
                             ),
                           ), //Logout
                           const PopupMenuItem<int>(
-                            value: 4,
+                            value: 3,
                             child: Text('Logout'),
                             textStyle: TextStyle(
                               color: Colors.black,

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:vaccine_distribution/BackEnd/Firebase.dart';
 
+import 'DisplayVialDetails.dart';
+
 class PatientDashboard extends StatefulWidget {
   @override
   _PatientDashboardState createState() => _PatientDashboardState();
@@ -92,7 +94,7 @@ class _PatientDashboardState extends State<PatientDashboard> {
                             borderRadius: BorderRadius.circular(10)),
                         icon: Icon(Icons.more_vert),
                         offset: Offset(0, ht * 0.1),
-                        onSelected: (int value) {
+                        onSelected: (int value) async {
                           setState(() {
                             print(value);
                             _popupMenuSelection = value;
@@ -102,7 +104,7 @@ class _PatientDashboardState extends State<PatientDashboard> {
                               //ToDo: Refresh List UI
                               break;
                             case 2:
-                              //ToDo: Display Patient Details
+                              await Navigator.of(context).push(MaterialPageRoute(builder: (context) => DisplayVialDetails()));
                               break;
                             case 3:
                               FirebaseCustoms.logOut().then((value) {
@@ -124,7 +126,7 @@ class _PatientDashboardState extends State<PatientDashboard> {
                           ), //Logout
                           const PopupMenuItem<int>(
                             value: 2,
-                            child: Text('Details'),
+                            child: Text('Track Vial'),
                             textStyle: TextStyle(
                               color: Colors.black,
                               fontFamily: "Agus",
