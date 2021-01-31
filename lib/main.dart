@@ -45,12 +45,13 @@ class FadeTransitionBuilder extends PageTransitionsBuilder {
   Widget buildTransitions<T>(_, __, animation, ___, child) => FadeTransition(opacity: animation, child: child);
 }
 
-String dateFormatter(DateTime datetime) {
-  return '${datetime.year}'
-      '/${(datetime.month).toString().padLeft(2, '0')}'
-      '/${(datetime.day).toString().padLeft(2, '0')}'
+String dateFormatter(String datetimeString) {
+  DateTime dateTime = DateTime.parse(datetimeString.substring(0, 26));
+  return '${dateTime.year}'
+      '/${(dateTime.month).toString().padLeft(2, '0')}'
+      '/${(dateTime.day).toString().padLeft(2, '0')}'
       ' - '
-      '${(datetime.hour).toString().padLeft(2, '0')}'
-      ':${(datetime.minute).toString().padLeft(2, '0')}'
-      ':${(datetime.second).toString().padLeft(2, '0')}';
+      '${(dateTime.hour).toString().padLeft(2, '0')}'
+      ':${(dateTime.minute).toString().padLeft(2, '0')}'
+      ':${(dateTime.second).toString().padLeft(2, '0')}';
 }

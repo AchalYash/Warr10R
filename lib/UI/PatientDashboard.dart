@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:vaccine_distribution/BackEnd/BlockChain.dart';
 import 'package:vaccine_distribution/BackEnd/Firebase.dart';
+import 'package:vaccine_distribution/main.dart';
 
 import 'DisplayVialDetails.dart';
 
@@ -11,20 +13,20 @@ class PatientDashboard extends StatefulWidget {
 class _PatientDashboardState extends State<PatientDashboard> {
   double ht, wd, notificationBarHeight;
   int _popupMenuSelection; //  Todo: Remove If Unused
-  List<Map<String, String>> patientRecords = [
+  List<Map<String, dynamic>> patientRecords = [
     {
-      "dt": DateTime.now().toString(),
+      "time": DateTime.now().toString(),
       "type": "Pfyser-2D", //Vaccine Type
-      "doc": "Dr34Gty6HYertr7",
+      "sender": "Dr34Gty6HYertr7",
       "center": "Central Hospital",
-      "vail": "js6f6sish8sh8s", //Vaccine Vial ID
+      "id": "js6f6sish8sh8s", //Vaccine Vial ID
     },
     {
-      "dt": DateTime.now().toString(),
+      "time": DateTime.now().add(Duration(days: 30)).toString(),
       "type": "Pfyser-9R", //Vaccine Type
-      "doc": "Dr36Ghy6ry5rt7y",
+      "sender": "Dr36Ghy6ry5rt7y",
       "center": "State Hospital",
-      "vail": "g56fhut67ghty6", //Vaccine Vial ID
+      "id": "g56fhut67ghty6", //Vaccine Vial ID
     }
   ];
 
@@ -38,6 +40,12 @@ class _PatientDashboardState extends State<PatientDashboard> {
     "Stiffness in Arm",
     "Malaise",
   ];
+
+  void refreshRecords() async {
+    var patientTransactions = await BlockChain.getDetails('123456', 'p');
+    patientRecords.addAll(patientTransactions);
+    setState(() {});
+  }
 
   @override
   void didChangeDependencies() {
@@ -101,7 +109,7 @@ class _PatientDashboardState extends State<PatientDashboard> {
                           });
                           switch (value) {
                             case 1:
-                              //ToDo: Refresh List UI
+                              refreshRecords();
                               break;
                             case 2:
                               await Navigator.of(context).push(MaterialPageRoute(builder: (context) => DisplayVialDetails()));
@@ -145,17 +153,6 @@ class _PatientDashboardState extends State<PatientDashboard> {
                         ], //PopUpMenu
                       ),
                     ),
-/*                  GestureDetector(
-                      onTap: (){
-                        print('Logout');
-                      },
-                      child: Container(
-                        width: wd * 0.15,
-                        height: ht * 0.11 - notificationBarHeight,
-                        alignment: Alignment.center,
-                        child: Icon(Icons.more_vert),
-                      ),
-                    ),*/
                   ],
                 ), //AppBar
               ),
@@ -172,9 +169,6 @@ class _PatientDashboardState extends State<PatientDashboard> {
                         padding: const EdgeInsets.symmetric(
                             vertical: 32.0, horizontal: 16.0),
                         children: patientRecords.map((record) {
-                          DateTime dt = DateTime.parse(record["dt"]);
-                          String dateTime =
-                              "${dt.day}/${dt.month}/${dt.year} - ${dt.hour}:${dt.minute}";
                           bool isExpanded = false;
                           return Padding(
                             padding: const EdgeInsets.only(top: 32.0),
@@ -188,7 +182,7 @@ class _PatientDashboardState extends State<PatientDashboard> {
                                   Padding(
                                     padding: const EdgeInsets.only(left: 16.0),
                                     child: Text(
-                                      record["type"],
+                                      record["type"]??="Unknown",
                                       style: TextStyle(
                                         fontFamily: "Agus",
                                         fontSize: 21,
@@ -203,7 +197,7 @@ class _PatientDashboardState extends State<PatientDashboard> {
                                       bottom: 16.0,
                                     ),
                                     child: Text(
-                                      dateTime,
+                                      dateFormatter(record["time"]),
                                       style: TextStyle(
                                         fontFamily: "Agus",
                                         fontSize: 16,
@@ -217,7 +211,7 @@ class _PatientDashboardState extends State<PatientDashboard> {
                                       left: 16.0,
                                     ),
                                     child: Text(
-                                      "Doctor:  ${record["doc"]}",
+                                      "Doctor:  ${record["sender"]}",
                                       style: TextStyle(
                                         fontFamily: "Agus",
                                         fontSize: 16,
@@ -231,7 +225,7 @@ class _PatientDashboardState extends State<PatientDashboard> {
                                       bottom: 16.0,
                                     ),
                                     child: Text(
-                                      "Center:  ${record["center"]}",
+                                      "Center:  ${record["center"]??="Unknown"}",
                                       style: TextStyle(
                                         fontFamily: "Agus",
                                         fontSize: 16,
@@ -240,7 +234,7 @@ class _PatientDashboardState extends State<PatientDashboard> {
                                   ), //Center
                                   ExpansionTile(
                                     title: Text(
-                                      "Vial:  ${record["vail"]}",
+                                      "Vial:  ${record["id"]}",
                                       style: TextStyle(
                                         fontFamily: "Agus",
                                         fontSize: 16,

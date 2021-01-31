@@ -321,14 +321,14 @@ class VialDetailsTile extends StatelessWidget {
     return ExpansionTile(
       maintainState: false,
       title: Text(
-        transaction["p_id"].toString().toUpperCase(),
+        transaction["reciever"].toString().toUpperCase(),
         style: TextStyle(
           fontFamily: "Agus",
           fontSize: 21,
         ),
       ),
       subtitle: Text(
-        transaction["d_id"].toString().toUpperCase(),
+        transaction["sender"].toString().toUpperCase(),
         style: TextStyle(
           fontFamily: "Agus",
           fontSize: 15,
@@ -341,7 +341,7 @@ class VialDetailsTile extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.only(left: 8.0, bottom: 16.0),
           child: Text(
-            dateFormatter(DateTime.parse(transaction["time"])),
+            dateFormatter(transaction["time"]),
             style: TextStyle(
               fontFamily: "Agus",
             ),

@@ -18,12 +18,11 @@ class BlockChain  {
       var body = jsonEncode({"id": id, "type":type});
       response = await http.post(endPoint, body: body, headers: headers);
 
-      print(response.body);
-/*
-      for(Map<String, dynamic> x in jsonDecode(fetchedDetails.body) ) {
+      print(response.body.runtimeType);
+      for(Map<String, dynamic> x in jsonDecode(response.body) ) {
+        print(x);
         transactionDetails.add(x);
       }
-*/
     }
     catch(e){
       transactionDetails = null;

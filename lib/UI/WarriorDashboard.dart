@@ -1,7 +1,5 @@
 import 'dart:convert';
 
-import 'package:http/http.dart' as http;
-
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/all.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -9,9 +7,12 @@ import 'package:qrscan/qrscan.dart' as qrScanner;
 import 'package:vaccine_distribution/BackEnd/BlockChain.dart';
 import 'package:vaccine_distribution/BackEnd/Firebase.dart';
 import 'package:vaccine_distribution/UI/DisplayVialDetails.dart';
+import 'package:vaccine_distribution/main.dart';
+
+final GlobalKey warriorDashBoardScaffold = GlobalKey<ScaffoldState>();
 
 final PageController _warriorPageCtrl = PageController();
-List<Map<String, String>> warriorHistory = [
+List<Map<String, dynamic>> warriorHistory = [
 /*  {
     "dt": DateTime.now().toIso8601String(),
     "patientId": "123412341234",
@@ -59,6 +60,8 @@ class _WarriorDashboardState extends State<WarriorDashboard> {
   void didChangeDependencies() {
     super.didChangeDependencies();
 
+    refreshRecords();
+
     Size size = MediaQuery.of(context).size;
     ht = size.height;
     wd = size.width;
@@ -71,6 +74,12 @@ class _WarriorDashboardState extends State<WarriorDashboard> {
     warriorPageCtrl.dispose();
   }
 
+  void refreshRecords() async {
+    var warriorTransactions = await BlockChain.getDetails(FirebaseCustoms.auth.currentUser.uid, 'd');
+    warriorHistory.addAll(warriorTransactions);
+    setState(() {});
+  }
+
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
@@ -78,6 +87,7 @@ class _WarriorDashboardState extends State<WarriorDashboard> {
         return false;
       },
       child: Scaffold(
+        key: warriorDashBoardScaffold,
         backgroundColor: Colors.white,
         body: Stack(
           children: [
@@ -120,7 +130,7 @@ class _WarriorDashboardState extends State<WarriorDashboard> {
                           print(value);
                           switch (value) {
                             case 1:
-                              //ToDo: Implement Refresh ShowCase
+                              refreshRecords();
                               break;
                             case 2:
                               await Navigator.of(context).push(MaterialPageRoute(builder: (context) => DisplayVialDetails()));
@@ -364,7 +374,8 @@ class _WarriorHistoryListState extends State<WarriorHistoryList> {
           child: ListView(
             padding: EdgeInsets.zero,
             children: warriorHistory.map((record) {
-              DateTime dt = DateTime.parse(record["dt"]);
+              print(record);
+              DateTime dt = DateTime.parse(record["time"]);
 
               return Padding(
                 padding: const EdgeInsets.only(bottom: 16.0),
@@ -375,16 +386,16 @@ class _WarriorHistoryListState extends State<WarriorHistoryList> {
                   child: ExpansionTile(
                     childrenPadding: EdgeInsets.symmetric(horizontal: 16.0),
                     title: Text(
-                      "${record["patientId"]}",
+                      "${record["reciever"]}",
                       style: TextStyle(
                         fontFamily: "Agus",
                         fontSize: 21,
                       ),
                     ),
-                    subtitle: Padding(
+                    subtitle:Padding(
                       padding: const EdgeInsets.only(top: 4.0),
                       child: Text(
-                        record["vaccineType"],
+                        record["type"]??="Unknown",
                         style: TextStyle(
                           fontFamily: "Agus",
                           fontSize: 18,
@@ -397,7 +408,7 @@ class _WarriorHistoryListState extends State<WarriorHistoryList> {
                       Padding(
                         padding: const EdgeInsets.only(top: 4.0),
                         child: Text(
-                          "Vial: ${record["vailId"]}",
+                          "Vial: ${record["id"]}",
                           style: TextStyle(
                             fontFamily: "Agus",
                             fontSize: 18,
@@ -408,7 +419,7 @@ class _WarriorHistoryListState extends State<WarriorHistoryList> {
                       Padding(
                         padding: const EdgeInsets.only(top: 4.0, bottom: 8.0),
                         child: Text(
-                          "${dt.day}/${dt.month}/${dt.year} - ${dt.hour}:${dt.minute}",
+                          dateFormatter(record["time"]),
                           style: TextStyle(
                             fontFamily: "Agus",
                             fontSize: 18,
@@ -730,11 +741,11 @@ class _WarriorNewRecordState extends State<WarriorNewRecord> {
                         elevation: 2,
                         onPressed: () async {
                           warriorHistory.insert(0, {
-                            "dt": DateTime.now().toIso8601String(),
-                            "patientId": warriorAadharInputCtrl.value.text,
-                            "vaccineType":
+                            "time": DateTime.now().toIso8601String(),
+                            "reciever": warriorAadharInputCtrl.value.text,
+                            "type":
                                 "${vailQRDetails["manufacturer"]}-${vailQRDetails["name"]}",
-                            "vailId": vailQRDetails["vailId"],
+                            "id": vailQRDetails["vailId"],
                           });
 
                           Map<int, String> responseStatus = await BlockChain.addDetails(vailQRDetails["vailId"], FirebaseCustoms.auth.currentUser.uid, warriorAadharInputCtrl.value.text, 'v');
