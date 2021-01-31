@@ -737,20 +737,7 @@ class _WarriorNewRecordState extends State<WarriorNewRecord> {
                             "vailId": vailQRDetails["vailId"],
                           });
 
-/*
-                          var url = Uri.parse('http://achalapoorvashutosh.pythonanywhere.com/transactions/new');
-                          var headers = {
-                            'Content-Type': 'application/json'
-                          };
-                          var body = jsonEncode({"v_id": vailQRDetails["vailId"],"p_id": warriorAadharInputCtrl.value.text,"d_id": FirebaseCustoms.auth.currentUser.email,"block_index": "0","time": DateTime.now().toIso8601String()});
-
-                          print(body);
-                          var resp = await http.post(url, body: body, headers: headers);
-
-                          print(resp.statusCode);
-*/
-
-                          Map<int, String> responseStatus = await BlockChain.addDetails(vailQRDetails["vailId"], warriorAadharInputCtrl.value.text, FirebaseCustoms.auth.currentUser.uid, 'v');
+                          Map<int, String> responseStatus = await BlockChain.addDetails(vailQRDetails["vailId"], FirebaseCustoms.auth.currentUser.uid, warriorAadharInputCtrl.value.text, 'v');
 
                           print(responseStatus);
 

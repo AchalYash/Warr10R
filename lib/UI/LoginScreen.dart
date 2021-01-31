@@ -1,19 +1,11 @@
 import 'dart:async';
-// import 'dart:convert';
-
-import 'package:http/http.dart' as http;
 
 import 'package:flutter/material.dart';
-import 'package:vaccine_distribution/BackEnd/BlockChain.dart';
 import 'package:vaccine_distribution/UI/PatientAuthentication.dart';
 import 'package:vaccine_distribution/UI/PatientDashboard.dart';
 import 'package:vaccine_distribution/UI/WarriorDashboard.dart';
 import 'package:vaccine_distribution/BackEnd/Firebase.dart';
 
-
-//265
-
-//enum userCategories { Admin, Producer, Distributor, Warrior, Patient }
 
 class LoginScreen extends StatefulWidget {
   @override
