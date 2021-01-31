@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:vaccine_distribution/BackEnd/BlockChain.dart';
 import 'package:vaccine_distribution/BackEnd/Firebase.dart';
+import 'package:vaccine_distribution/UI/PatientAuthentication.dart';
 import 'package:vaccine_distribution/main.dart';
 
 import 'DisplayVialDetails.dart';
@@ -42,7 +43,7 @@ class _PatientDashboardState extends State<PatientDashboard> {
   ];
 
   void refreshRecords() async {
-    var patientTransactions = await BlockChain.getDetails('123456', 'p');
+    var patientTransactions = await BlockChain.getDetails(aadharNumber, 'p');
     patientRecords.addAll(patientTransactions);
     setState(() {});
   }

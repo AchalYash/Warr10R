@@ -9,7 +9,7 @@ import 'package:vaccine_distribution/BackEnd/Firebase.dart';
 import 'package:vaccine_distribution/UI/DisplayVialDetails.dart';
 import 'package:vaccine_distribution/main.dart';
 
-final GlobalKey warriorDashBoardScaffold = GlobalKey<ScaffoldState>();
+final GlobalKey _warriorDashBoardScaffold = GlobalKey<ScaffoldState>();
 
 final PageController _warriorPageCtrl = PageController();
 List<Map<String, dynamic>> warriorHistory = [
@@ -75,8 +75,12 @@ class _WarriorDashboardState extends State<WarriorDashboard> {
   }
 
   void refreshRecords() async {
+
     var warriorTransactions = await BlockChain.getDetails(FirebaseCustoms.auth.currentUser.uid, 'd');
-    warriorHistory.addAll(warriorTransactions);
+    if(warriorTransactions != null) {
+      warriorHistory = [];
+      warriorHistory.addAll(warriorTransactions);
+    }
     setState(() {});
   }
 
@@ -87,7 +91,7 @@ class _WarriorDashboardState extends State<WarriorDashboard> {
         return false;
       },
       child: Scaffold(
-        key: warriorDashBoardScaffold,
+        key: _warriorDashBoardScaffold,
         backgroundColor: Colors.white,
         body: Stack(
           children: [

@@ -5,6 +5,8 @@ import 'package:vaccine_distribution/UI/PatientDashboard.dart';
 import 'package:vaccine_distribution/BackEnd/Firebase.dart';
 import 'package:location/location.dart';
 
+String aadharNumber;
+
 class PatientAuthentication extends StatefulWidget {
   @override
   _PatientAuthenticationState createState() => _PatientAuthenticationState();
@@ -313,6 +315,7 @@ class _PatientAuthenticationState extends State<PatientAuthentication>
                         });
 
                         if(otpTextCtrl.value.text.isNotEmpty) {
+                          aadharNumber = aadharTextCtrl.value.text;
                           Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => PatientDashboard()));
                         }
                         // print('Patient Dashboard');
