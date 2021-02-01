@@ -13,7 +13,7 @@ class PatientDashboard extends StatefulWidget {
 
 class _PatientDashboardState extends State<PatientDashboard> {
   double ht, wd, notificationBarHeight;
-  int _popupMenuSelection; //  Todo: Remove If Unused
+  // int _popupMenuSelection; //  Todo: Remove If Unused
   List<Map<String, dynamic>> patientRecords = [
     {
       "time": DateTime.now().toString(),
@@ -106,7 +106,7 @@ class _PatientDashboardState extends State<PatientDashboard> {
                         onSelected: (int value) async {
                           setState(() {
                             print(value);
-                            _popupMenuSelection = value;
+                            // _popupMenuSelection = value;
                           });
                           switch (value) {
                             case 1:
