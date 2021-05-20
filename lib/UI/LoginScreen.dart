@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:vaccine_distribution/UI/IOTData.dart';
 import 'package:vaccine_distribution/UI/PatientAuthentication.dart';
 import 'package:vaccine_distribution/UI/PatientDashboard.dart';
 import 'package:vaccine_distribution/UI/WarriorDashboard.dart';
@@ -761,6 +762,9 @@ class _LoginScreenState extends State<LoginScreen>
     switch(userStatus[0]) {
       case '0':
         print('Link Admin Dashboard');
+        password.text = "";
+        userCategoryIndex = -1;
+        Navigator.push(context, MaterialPageRoute(builder: (context) => IOTData()));
         break;
       case '1':
         print('Link Producer Dashboard');

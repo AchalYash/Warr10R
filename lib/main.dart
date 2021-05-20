@@ -55,3 +55,12 @@ String dateFormatter(String datetimeString) {
       ':${(dateTime.minute).toString().padLeft(2, '0')}'
       ':${(dateTime.second).toString().padLeft(2, '0')}';
 }
+
+/*
+vailId: '123456',
+manufacturer: "Pfyzer",
+name: 'B6HG84',
+batch: 'B001',
+timeStamp: '2021-01-16T18:32:23+0000',
+
+ */
